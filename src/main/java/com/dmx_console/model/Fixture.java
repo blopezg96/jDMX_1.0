@@ -3,17 +3,17 @@ package com.dmx_console.model;
 
 public class Fixture {
     private String name;
-    private int adress;
+    private int address;
     private FixtureProfile profile;
 
-    public Fixture(String name, int adress, FixtureProfile profile){
+    public Fixture(String name, int address, FixtureProfile profile){
         this.name = name;
-        this.adress = adress;
+        this.address = address;
         this.profile = profile;
     }
 
-    public int getAdress(){
-        return adress;
+    public int getAddress(){
+        return address;
     }
     public String getName(){
         return name;
