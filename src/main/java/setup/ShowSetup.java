@@ -12,35 +12,35 @@ public class ShowSetup {
     public static List<Fixture> buildRig(){
 
         List<Fixture> rig = new ArrayList<>();
-        FixtureProfile par = FixtureProfiles.par7(); // selecciona Par7 de la bilbioteca
-        FixtureProfile head = FixtureProfiles.head(); // selecciona head de la biblioteca
+        FixtureProfile parProfile = FixtureProfiles.par7(); // selecciona Par7 de la bilbioteca
+        FixtureProfile headProfile = FixtureProfiles.head(); // selecciona head de la biblioteca
 
         int adress = 1;
 
-        // En este ciclo añadimos los 20 parleds.
+        // En este ciclo añadimos los 20 parleds de 7 canales cada uno
         for(int i=1; i<=20; i++){
              rig.add(new Fixture("PAR " + i,  //Nombre del PAR = PAR + EL VALOR DE i
                      adress,                        // Direccion que comienza en uno
-                     par));                         // Tipo de equipo (Perfil)
+                     parProfile));                         // Tipo de equipo (Perfil)
 
-            adress += 7;
+            adress += parProfile.size();  // Usa el tamaño real del parProfile, es decir cuntos canales ocupa
 
         }
-        System.out.println("ACTUAL ADRESS: " + adress);
+        System.out.println("ACTUAL ADRESS: " + (adress - 1));
 
-        int nAdrees = adress +7;
-        System.out.println("HEADS INICIAL ADRESS: " + nAdrees);
+
+
 
         for(int i=1; i<=5;i++){
             rig.add(new Fixture("HEAD " + i,
-                    nAdrees,
-                    head));
+                    adress,
+                    headProfile));
 
-            nAdrees += 7;
+            adress += headProfile.size(); // Usamos tamaños real de el "headProfile"
         }
 
-        System.out.println("20 PARLEDS CREATED USING " + adress + " ADRESS VALUES");
-        System.out.println("5 HEADS CREATED USING " + nAdrees + " ADRESS VALUES");
+        System.out.println("Heads terminan en la direccion: " + (adress - 1));
+        System.out.println("Total de canales usados: " + (adress-1));
         return rig;
     }
 }

@@ -24,8 +24,9 @@ public class FixtureProfiles {
         par7.addChannel(new FixtureChannel(3, ChannelFunction.GREEN));
         par7.addChannel(new FixtureChannel(4, ChannelFunction.BLUE));
         par7.addChannel(new FixtureChannel(5, ChannelFunction.WHITE));
-        par7.addChannel(new FixtureChannel(6, ChannelFunction.STROBE));
-        par7.addChannel(new FixtureChannel(7, ChannelFunction.SPEED));
+        par7.addChannel(new FixtureChannel(6, ChannelFunction.YELLOW));
+        par7.addChannel(new FixtureChannel(7, ChannelFunction.STROBE));
+
 
         return par7;
 

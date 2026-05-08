@@ -6,6 +6,7 @@ public enum ChannelFunction {
     GREEN,
     BLUE,
     WHITE,
+    YELLOW,
     AMBER,
     STROBE,
     PAN,
