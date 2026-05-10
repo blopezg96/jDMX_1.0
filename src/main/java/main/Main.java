@@ -2,19 +2,23 @@ package main;
 
 import com.dmx_console.model.Fixture;
 import dmx.Universe;
+import output.DMXOutput;
+import output.SimulatedDMXOutput;
 import service.FixtureService;
 import setup.ShowSetup;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
     public static void main(String [] args){
 
+
         Universe universe = new Universe();
+        DMXOutput output = new SimulatedDMXOutput(); // <<<< AQUI CUANDO TENGAMOS ENTTEC
 
-        FixtureService service = new FixtureService(universe);
+        FixtureService service = new FixtureService(universe, output);
 
+        output.connect();
         List<Fixture> rig = ShowSetup.buildRig();
 
         System.out.println("====== RIG CREADO ======");
@@ -46,20 +50,25 @@ public class Main {
         service.setColor(head1, 255, 0, 255);
         int headBase = head1.getAddress();
         System.out.println("Head direccion base: " + headBase);
+        System.out.println("Canal PAN: " +
+                universe.getChannel(headBase));
+        System.out.println("Canal TILT: " +
+                universe.getChannel(headBase + 1 ));
+        System.out.println("Canal COLOR_WHEEL: " +
+                universe.getChannel(headBase + 2));
         System.out.println("Canal RED: " +
-                universe.getChannel(headBase + 1)); //255
-        System.out.println("Canal GREEN: " +
-                universe.getChannel(headBase + 2)); //0
-        System.out.println("Canal BLUE: " +
                 universe.getChannel(headBase + 3)); //255
+        System.out.println("Canal GREEN: " +
+                universe.getChannel(headBase + 4)); //0
+        System.out.println("Canal BLUE: " +
+                universe.getChannel(headBase + 5)); //255
 
-        System.out.println("\n ==== TEST PARA BLACKOUT GENERAL====");
-        service.setColor(par1, 0, 255, 0); // primero setea a verde
-        service.blackoutAll();
-        System.out.println("Canal 1 tras blackout all: " +
-                universe.getChannel(1)); //0
-        System.out.println("Cananl 141 tras blackout all: " +
-                universe.getChannel(141)); //0
+        System.out.println("\n==== TEST PARA BLACKOUT PAR 1 =====");
+        service.blackout(par1);
+        output.disconnect();
+
+
+
 
     }
 

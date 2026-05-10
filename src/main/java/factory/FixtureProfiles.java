@@ -39,6 +39,9 @@ public class FixtureProfiles {
         head.addChannel(new FixtureChannel(1, ChannelFunction.PAN));
         head.addChannel((new FixtureChannel(2,ChannelFunction.TILT)));
         head.addChannel(new FixtureChannel(3, ChannelFunction.COLOR_WHEEL));
+        head.addChannel(new FixtureChannel(4, ChannelFunction.RED));
+        head.addChannel(new FixtureChannel(5, ChannelFunction.GREEN));
+        head.addChannel(new FixtureChannel(6, ChannelFunction.BLUE));
 
         return head;
 
