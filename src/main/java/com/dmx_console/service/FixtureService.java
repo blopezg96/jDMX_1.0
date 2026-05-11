@@ -1,11 +1,10 @@
-package service;
+package com.dmx_console.service;
 
 import com.dmx_console.model.ChannelFunction;
 import com.dmx_console.model.Fixture;
 import com.dmx_console.model.FixtureChannel;
-import com.sun.jdi.connect.spi.Connection;
-import dmx.Universe;
-import output.DMXOutput;
+import com.dmx_console.dmx.Universe;
+import com.dmx_console.output.DMXOutput;
 
 public class FixtureService {
 

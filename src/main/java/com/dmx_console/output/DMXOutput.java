@@ -1,6 +1,4 @@
-package output;
-
-import dmx.Universe;
+package com.dmx_console.output;
 
 public interface DMXOutput {
 

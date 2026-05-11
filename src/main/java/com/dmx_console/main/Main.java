@@ -1,11 +1,11 @@
-package main;
+package com.dmx_console.main;
 
 import com.dmx_console.model.Fixture;
-import dmx.Universe;
-import output.DMXOutput;
-import output.SimulatedDMXOutput;
-import service.FixtureService;
-import setup.ShowSetup;
+import com.dmx_console.dmx.Universe;
+import com.dmx_console.output.DMXOutput;
+import com.dmx_console.output.SimulatedDMXOutput;
+import com.dmx_console.service.FixtureService;
+import com.dmx_console.setup.ShowSetup;
 
 import java.util.List;
 

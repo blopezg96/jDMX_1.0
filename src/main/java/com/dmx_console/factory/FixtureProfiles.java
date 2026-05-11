@@ -1,4 +1,4 @@
-package factory;
+package com.dmx_console.factory;
 
 /* FIXTURES LIBRARIES   */
 

@@ -1,4 +1,4 @@
-package dmx;
+package com.dmx_console.dmx;
 
 /* Representa nuestra estructura DMX */
 public class Universe {

@@ -1,8 +1,8 @@
-package setup;
+package com.dmx_console.setup;
 
 import com.dmx_console.model.Fixture;
 import com.dmx_console.model.FixtureProfile;
-import factory.FixtureProfiles;
+import com.dmx_console.factory.FixtureProfiles;
 
 import java.util.ArrayList;
 import java.util.List;
