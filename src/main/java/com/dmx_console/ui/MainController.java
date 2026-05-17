@@ -20,6 +20,7 @@ public class MainController {
     private final FixtureService service;
     private final BorderPane view;
 
+
     private Fixture selectedFixture;
 
     public MainController(List<Fixture> rig, FixtureService service){
@@ -46,6 +47,7 @@ public class MainController {
         Label labelFixture = new Label("Select Fixture");
         labelFixture.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
 
+        Slider sliderDimmer = new Slider(0, 255, 255); //dimmer
         Slider sliderR = createSlider();
         Slider sliderG = createSlider();
         Slider sliderB = createSlider();
@@ -69,11 +71,13 @@ public class MainController {
 
         sliderPanel.getChildren().addAll(
                 labelFixture,
+                new Label("Dimmer"), sliderDimmer, //dimmer
                 new Label("Red"), sliderR,
                 new Label("Green"), sliderG,
                 new Label("Blue"), sliderB,
                 new Label("White"), sliderW,
-                new Label("Storbe"), sliderStrobe,
+                new Label("Yellow"), sliderY,
+                new Label("Strobe"), sliderStrobe,
                 colorPreview,
                 btnBlackout
 
@@ -89,6 +93,7 @@ public class MainController {
 
                     // Reset Sliders
 
+                    sliderDimmer.setValue(0); //dimmer
                     sliderR.setValue(0);
                     sliderG.setValue(0);
                     sliderB.setValue(0);
@@ -101,6 +106,8 @@ public class MainController {
         // Logica que sucede cuando se desliza un slider
 
         Runnable updateDMX = () -> {
+            double dimmerFactor = sliderDimmer.getValue() / 255.0;
+
             if(selectedFixture == null ) return;
              int r = (int) sliderR.getValue();
              int g = (int) sliderG.getValue();
@@ -109,14 +116,23 @@ public class MainController {
              int y = (int) sliderY.getValue();
              int strobe = (int) sliderStrobe.getValue();
 
+             // modificando el preview utiliozando Yellow y White
+
+            int previewR = (int)(Math.min(255, r+y) * dimmerFactor);
+            int previewG = (int)(Math.min(255, g + (y/2) + w) * dimmerFactor);
+            int previewB = (int)(Math.min(255, b+w) * dimmerFactor);
+
              service.setColor(selectedFixture, r,g,b);
              service.setChannel(selectedFixture, ChannelFunction.WHITE, w);
              service.setChannel(selectedFixture, ChannelFunction.YELLOW, y);
              service.setChannel(selectedFixture, ChannelFunction.STROBE, strobe);
+             service.setChannel(selectedFixture, ChannelFunction.DIMMER, (int) sliderDimmer.getValue());
 
-             colorPreview.setFill(Color.rgb(r,g,b));
+             colorPreview.setFill(Color.rgb(previewR,previewG,previewB));
         };
 
+        sliderDimmer.valueProperty().addListener((o,ov,nv) ->
+                updateDMX.run());  // dimmer
         sliderR.valueProperty().addListener((o, ov, nv) ->
                 updateDMX.run());
         sliderG.valueProperty().addListener((o, ov, nv) ->

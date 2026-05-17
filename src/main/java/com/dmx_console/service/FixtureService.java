@@ -33,7 +33,7 @@ public class FixtureService {
     public void setColor(Fixture fixture,      //Asigna color rgb
                          int r, int g, int b){
 
-        applyChannel(fixture, ChannelFunction.DIMMER, 255);
+
         applyChannel(fixture, ChannelFunction.RED,r);
         applyChannel(fixture, ChannelFunction.GREEN, g);
         applyChannel(fixture, ChannelFunction.BLUE, b);
