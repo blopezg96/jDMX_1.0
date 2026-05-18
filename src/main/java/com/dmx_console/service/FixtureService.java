@@ -83,4 +83,14 @@ public class FixtureService {
         send();
     }
 
+    public int getChannelValue(Fixture fixture, ChannelFunction function){
+        return fixture.getProfile().getChannels().stream()
+                .filter(ch -> ch.getFunction() == function)
+                .findFirst()
+                .map(ch -> universe.getChannel(
+                        fixture.getAddress() + ch.getOffset() - 1
+                ))
+                .orElse(0);
+    }
+
 }

@@ -2,6 +2,8 @@ package com.dmx_console.ui;
 
 import com.dmx_console.model.ChannelFunction;
 import com.dmx_console.model.Fixture;
+import com.dmx_console.service.SceneService;
+import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -19,17 +21,31 @@ public class MainController {
     private final List<Fixture> rig;
     private final FixtureService service;
     private final BorderPane view;
+    private final SceneService sceneService;
+    private final ScenePanel scenePanel;
+    private ChangeListener<Number> dmxListener;
+    private Slider sliderR;
+    private Slider sliderG;
+    private Slider sliderB;
+    private Slider sliderY;
+    private Slider sliderW;
+    private Slider sliderStrobe;
+    private Slider sliderDimmer;
 
 
     private Fixture selectedFixture;
 
     public MainController(List<Fixture> rig, FixtureService service){
 
+
         this.rig = rig;
         this.service = service;
         this.view = new BorderPane();
+        this.sceneService = new SceneService(service);
+        this.scenePanel = new ScenePanel(sceneService, rig, () -> updateSliders(selectedFixture));
         buildUI();
     }
+
 
     private void buildUI(){
 
@@ -47,13 +63,13 @@ public class MainController {
         Label labelFixture = new Label("Select Fixture");
         labelFixture.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
 
-        Slider sliderDimmer = new Slider(0, 255, 255); //dimmer
-        Slider sliderR = createSlider();
-        Slider sliderG = createSlider();
-        Slider sliderB = createSlider();
-        Slider sliderW = createSlider();
-        Slider sliderY = createSlider();
-        Slider sliderStrobe = createSlider();
+         sliderDimmer = new Slider(0, 255, 255); //dimmer
+         sliderR = createSlider();
+         sliderG = createSlider();
+         sliderB = createSlider();
+         sliderW = createSlider();
+         sliderY = createSlider();
+         sliderStrobe = createSlider();
 
         // Preview del color
         javafx.scene.shape.Rectangle colorPreview =
@@ -86,27 +102,23 @@ public class MainController {
         // LOGICA CUANDO SE SELECCIONA UN FIXTURE
         fixtureList.getSelectionModel().selectedIndexProperty()
                 .addListener((obs, oldVal, newVal) -> {
+                    if(newVal.intValue() < 0) return;
                     selectedFixture = rig.get(newVal.intValue());
                     labelFixture.setText(selectedFixture.getName()
                             + "- Dir: " + selectedFixture.getAddress()
                     );
+                    updateSliders(selectedFixture);
 
                     // Reset Sliders
 
-                    sliderDimmer.setValue(0); //dimmer
-                    sliderR.setValue(0);
-                    sliderG.setValue(0);
-                    sliderB.setValue(0);
-                    sliderW.setValue(0);
-                    sliderY.setValue(0);
-                    sliderStrobe.setValue(0);
+                    sliderDimmer.setValue(255); //dimmer
+
                 });
 
 
         // Logica que sucede cuando se desliza un slider
 
-        Runnable updateDMX = () -> {
-            double dimmerFactor = sliderDimmer.getValue() / 255.0;
+        dmxListener = (o, ov, nv) -> {
 
             if(selectedFixture == null ) return;
              int r = (int) sliderR.getValue();
@@ -115,36 +127,40 @@ public class MainController {
              int w = (int) sliderW.getValue();
              int y = (int) sliderY.getValue();
              int strobe = (int) sliderStrobe.getValue();
+             int dimmer = (int) sliderDimmer.getValue();
 
-             // modificando el preview utiliozando Yellow y White
 
+
+            service.setColor(selectedFixture, r,g,b);
+            service.setChannel(selectedFixture, ChannelFunction.WHITE, w);
+            service.setChannel(selectedFixture, ChannelFunction.YELLOW, y);
+            service.setChannel(selectedFixture, ChannelFunction.STROBE, strobe);
+            service.setChannel(selectedFixture, ChannelFunction.DIMMER, dimmer);
+
+            // modificando el preview utiliozando Yellow y White
+            double dimmerFactor = sliderDimmer.getValue() / 255.0;
             int previewR = (int)(Math.min(255, r+y) * dimmerFactor);
             int previewG = (int)(Math.min(255, g + (y/2) + w) * dimmerFactor);
             int previewB = (int)(Math.min(255, b+w) * dimmerFactor);
 
-             service.setColor(selectedFixture, r,g,b);
-             service.setChannel(selectedFixture, ChannelFunction.WHITE, w);
-             service.setChannel(selectedFixture, ChannelFunction.YELLOW, y);
-             service.setChannel(selectedFixture, ChannelFunction.STROBE, strobe);
-             service.setChannel(selectedFixture, ChannelFunction.DIMMER, (int) sliderDimmer.getValue());
+
 
              colorPreview.setFill(Color.rgb(previewR,previewG,previewB));
         };
 
-        sliderDimmer.valueProperty().addListener((o,ov,nv) ->
-                updateDMX.run());  // dimmer
-        sliderR.valueProperty().addListener((o, ov, nv) ->
-                updateDMX.run());
-        sliderG.valueProperty().addListener((o, ov, nv) ->
-                updateDMX.run());
-        sliderB.valueProperty().addListener((o,ov,nv) ->
-                updateDMX.run());
-        sliderW.valueProperty().addListener((o,ov,nv)->
-                updateDMX.run());
-        sliderY.valueProperty().addListener((o,ov,nv)->
-                updateDMX.run());
-        sliderStrobe.valueProperty().addListener((o,ov,nv)->
-                updateDMX.run());
+        sliderDimmer.valueProperty().addListener(dmxListener);  // dimmer
+        assert sliderR != null;
+        sliderR.valueProperty().addListener(dmxListener);
+        assert sliderG != null;
+        sliderG.valueProperty().addListener(dmxListener);
+        assert sliderB != null;
+        sliderB.valueProperty().addListener(dmxListener);
+        assert sliderW != null;
+        sliderW.valueProperty().addListener(dmxListener);
+        assert sliderY != null;
+        sliderY.valueProperty().addListener(dmxListener);
+        assert sliderStrobe != null;
+        sliderStrobe.valueProperty().addListener(dmxListener);
 
         // LOGICA DEL BLACKOUT
 
@@ -159,9 +175,14 @@ public class MainController {
             sliderStrobe.setValue(0);
         });
 
+
+
+
+
         /// Final Layout
         view.setLeft(fixtureList);
         view.setCenter(sliderPanel);
+        view.setRight(scenePanel.getView());
         view.setStyle("-fx-background-color: #1e1e1e;");
         sliderPanel.setStyle("-fx-background-color: #1e1e1e; -fx-text-fill: white;");
 
@@ -180,6 +201,49 @@ public class MainController {
     public BorderPane getView(){
         return view;
     }
+
+    public void updateSliders(Fixture fixture){
+        if(fixture == null) return;
+
+        //Deshabilidar listeners para evitar loops
+        sliderR.valueProperty().removeListener(dmxListener);
+        sliderG.valueProperty().removeListener(dmxListener);
+        sliderB.valueProperty().removeListener(dmxListener);
+        sliderY.valueProperty().removeListener(dmxListener);
+        sliderW.valueProperty().removeListener(dmxListener);
+        sliderStrobe.valueProperty().removeListener(dmxListener);
+        sliderDimmer.valueProperty().removeListener(dmxListener);
+
+        // Se actualizaran los valores visuales
+        sliderDimmer.setValue(service.getChannelValue(fixture, ChannelFunction.DIMMER));
+        sliderR.setValue(service.getChannelValue(fixture, ChannelFunction.RED));
+        sliderG.setValue(service.getChannelValue(fixture, ChannelFunction.GREEN));
+        sliderB.setValue(service.getChannelValue(fixture, ChannelFunction.BLUE));
+        sliderW.setValue(service.getChannelValue(fixture, ChannelFunction.WHITE));
+        sliderY.setValue(service.getChannelValue(fixture, ChannelFunction.YELLOW));
+        sliderStrobe.setValue(service.getChannelValue(fixture, ChannelFunction.STROBE));
+
+        // Se reconectan los listeners
+        sliderR.valueProperty().addListener(dmxListener);
+        sliderG.valueProperty().addListener(dmxListener);
+        sliderB.valueProperty().addListener(dmxListener);
+        sliderW.valueProperty().addListener(dmxListener);
+        sliderY.valueProperty().addListener(dmxListener);
+        sliderDimmer.valueProperty().addListener(dmxListener);
+        sliderStrobe.valueProperty().addListener(dmxListener);
+
+
+
+    }
+
+    public Fixture getSelectedFixture(){
+        return selectedFixture;
+
+    }
+
+
+
+
 }
 
 
