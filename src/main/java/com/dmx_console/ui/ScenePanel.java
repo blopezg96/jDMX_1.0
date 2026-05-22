@@ -92,6 +92,7 @@ public class ScenePanel {
             Scene selected = sceneService.getScenes().get(index);
             sceneService.apply(selected, rig);
             onSceneApplied.run();
+
             System.out.println("[UI] Escena aplicada: " +selected.getName());
         });
 

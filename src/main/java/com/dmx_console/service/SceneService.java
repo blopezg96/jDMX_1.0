@@ -62,6 +62,9 @@ public class SceneService {
         }
     }
 
+
+
+
     // Metodo para eliminar escenas por su nombre
     public void delete(String name){
         scenes.removeIf(s -> s.getName().equals(name));

@@ -5,10 +5,7 @@ import com.dmx_console.model.Fixture;
 import com.dmx_console.service.SceneService;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Slider;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import com.dmx_console.service.FixtureService;
 import javafx.scene.layout.VBox;
@@ -24,6 +21,7 @@ public class MainController {
     private final SceneService sceneService;
     private final ScenePanel scenePanel;
     private ChangeListener<Number> dmxListener;
+    private javafx.scene.shape.Rectangle colorPreview;
     private Slider sliderR;
     private Slider sliderG;
     private Slider sliderB;
@@ -63,6 +61,46 @@ public class MainController {
         Label labelFixture = new Label("Select Fixture");
         labelFixture.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
 
+        // Preview del color
+        colorPreview = new javafx.scene.shape.Rectangle(200, 50);
+        colorPreview.setFill(Color.BLACK);
+        colorPreview.setArcWidth(10);
+        colorPreview.setArcHeight(10);
+
+        ColorPicker colorPicker = new ColorPicker(Color.BLACK);
+        colorPicker.setMaxWidth(Double.MAX_VALUE);
+        colorPicker.setStyle("-fx-color-label-visible: false");
+
+        colorPicker.setOnAction(e -> {
+            Color c = colorPicker.getValue();
+            int r = (int)( c.getRed() * 255);
+            int g = (int)(c.getGreen() * 255);
+            int b = (int)(c.getBlue() * 255);
+
+            // Desactivar listeners
+            sliderR.valueProperty().removeListener(dmxListener);
+            sliderG.valueProperty().removeListener(dmxListener);
+            sliderB.valueProperty().removeListener(dmxListener);
+
+            // Setear nuevos valores
+            sliderR.setValue(r);
+            sliderG.setValue(g);
+            sliderB.setValue(b);
+
+            // Conectar Listeners
+
+            sliderR.valueProperty().addListener(dmxListener);
+            sliderG.valueProperty().addListener(dmxListener);
+            sliderB.valueProperty().addListener(dmxListener);
+
+            if (selectedFixture!=null){
+                service.setColor(selectedFixture, r,g,b);
+            }
+
+            // Actualizando preview
+            colorPreview.setFill(Color.rgb(r,g,b));
+        });
+
          sliderDimmer = new Slider(0, 255, 255); //dimmer
          sliderR = createSlider();
          sliderG = createSlider();
@@ -71,12 +109,7 @@ public class MainController {
          sliderY = createSlider();
          sliderStrobe = createSlider();
 
-        // Preview del color
-        javafx.scene.shape.Rectangle colorPreview =
-                new javafx.scene.shape.Rectangle(200, 50);
-        colorPreview.setFill(Color.BLACK);
-        colorPreview.setArcWidth(10);
-        colorPreview.setArcHeight(10);
+
 
         //Boton de blackout
         Button btnBlackout = new Button("BLACK OUT");
@@ -87,6 +120,7 @@ public class MainController {
 
         sliderPanel.getChildren().addAll(
                 labelFixture,
+                colorPicker,
                 new Label("Dimmer"), sliderDimmer, //dimmer
                 new Label("Red"), sliderR,
                 new Label("Green"), sliderG,
@@ -179,6 +213,13 @@ public class MainController {
 
 
 
+
+
+
+
+
+
+
         /// Final Layout
         view.setLeft(fixtureList);
         view.setCenter(sliderPanel);
@@ -232,7 +273,25 @@ public class MainController {
         sliderDimmer.valueProperty().addListener(dmxListener);
         sliderStrobe.valueProperty().addListener(dmxListener);
 
+        updatePreview();
 
+
+    }
+
+    private void updatePreview(){
+        int r = (int)(sliderR.getValue());
+        int g = (int)(sliderG.getValue());
+        int b = (int)(sliderB.getValue());
+        int y = (int)(sliderY.getValue());
+        int w = (int)(sliderW.getValue());
+        int dimmer = (int)(sliderDimmer.getValue() / 255.0);
+
+
+        int previewR = (int)(Math.min(255, r+y) * 255);
+        int previewG = (int)(Math.min(255, g + (y/2) + w) * 255);
+        int previewB = (int)(Math.min(255, b + w) * 255);
+
+        colorPreview.setFill(Color.rgb(previewR, previewG, previewB));
 
     }
 
