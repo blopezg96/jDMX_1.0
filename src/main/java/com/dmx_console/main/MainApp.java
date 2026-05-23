@@ -4,6 +4,7 @@ import com.dmx_console.model.Fixture;
 import com.dmx_console.dmx.Universe;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import com.dmx_console.output.DMXOutput;
 import com.dmx_console.output.SimulatedDMXOutput;
@@ -29,10 +30,19 @@ public class MainApp extends Application {
         // --- UI ----
         MainController controller = new MainController(rig, service);
 
-        Scene scene = new Scene(controller.getView(), 900, 600);
+        BorderPane root = controller.getView();
+        Scene scene = new Scene(root, 900, 600);
+        scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+
+        //root.prefWidthProperty().bind(scene.widthProperty());
+        //root.prefHeightProperty().bind(scene.heightProperty());
+
+        stage.setMinWidth(1000);
+        stage.setMinHeight(650);
         stage.setTitle("jDMX Console");
         stage.setScene(scene);
         stage.show();
+
     }
 
     public static void main(String[] args){

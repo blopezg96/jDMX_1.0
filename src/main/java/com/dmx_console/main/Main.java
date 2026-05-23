@@ -6,6 +6,7 @@ import com.dmx_console.output.DMXOutput;
 import com.dmx_console.output.SimulatedDMXOutput;
 import com.dmx_console.service.FixtureService;
 import com.dmx_console.setup.ShowSetup;
+import javafx.scene.Scene;
 
 import java.util.List;
 
@@ -15,6 +16,8 @@ public class Main {
 
         Universe universe = new Universe();
         DMXOutput output = new SimulatedDMXOutput(); // <<<< AQUI CUANDO TENGAMOS ENTTEC
+
+
 
         FixtureService service = new FixtureService(universe, output);
 

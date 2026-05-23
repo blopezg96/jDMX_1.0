@@ -1,0 +1,152 @@
+[
+  {
+    "name": "Multicolor",
+    "fixtureValues": {
+      "PAR 5": {
+        "DIMMER": 255,
+        "RED": 0,
+        "WHITE": 0,
+        "BLUE": 0,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 0
+      },
+      "PAR 3": {
+        "DIMMER": 255,
+        "RED": 0,
+        "WHITE": 0,
+        "BLUE": 0,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 255
+      },
+      "PAR 4": {
+        "DIMMER": 255,
+        "RED": 255,
+        "WHITE": 0,
+        "BLUE": 0,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 0
+      },
+      "PAR 1": {
+        "DIMMER": 255,
+        "RED": 255,
+        "WHITE": 0,
+        "BLUE": 0,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 0
+      },
+      "PAR 2": {
+        "DIMMER": 255,
+        "RED": 0,
+        "WHITE": 0,
+        "BLUE": 254,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 0
+      }
+    }
+  },
+  {
+    "name": "segunda escena",
+    "fixtureValues": {
+      "PAR 5": {
+        "DIMMER": 255,
+        "RED": 0,
+        "WHITE": 0,
+        "BLUE": 0,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 0
+      },
+      "PAR 3": {
+        "DIMMER": 255,
+        "RED": 193,
+        "WHITE": 0,
+        "BLUE": 0,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 189
+      },
+      "PAR 4": {
+        "DIMMER": 255,
+        "RED": 255,
+        "WHITE": 0,
+        "BLUE": 0,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 0
+      },
+      "PAR 1": {
+        "DIMMER": 255,
+        "RED": 127,
+        "WHITE": 0,
+        "BLUE": 128,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 128
+      },
+      "PAR 2": {
+        "DIMMER": 255,
+        "RED": 66,
+        "WHITE": 0,
+        "BLUE": 66,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 64
+      }
+    }
+  },
+  {
+    "name": "Colores personalizados",
+    "fixtureValues": {
+      "PAR 5": {
+        "DIMMER": 255,
+        "RED": 204,
+        "WHITE": 0,
+        "BLUE": 51,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 204
+      },
+      "PAR 3": {
+        "DIMMER": 255,
+        "RED": 117,
+        "WHITE": 0,
+        "BLUE": 39,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 155
+      },
+      "PAR 4": {
+        "DIMMER": 255,
+        "RED": 22,
+        "WHITE": 0,
+        "BLUE": 206,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 175
+      },
+      "PAR 1": {
+        "DIMMER": 255,
+        "RED": 222,
+        "WHITE": 0,
+        "BLUE": 27,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 128
+      },
+      "PAR 2": {
+        "DIMMER": 255,
+        "RED": 151,
+        "WHITE": 0,
+        "BLUE": 21,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 215
+      }
+    }
+  }
+]
