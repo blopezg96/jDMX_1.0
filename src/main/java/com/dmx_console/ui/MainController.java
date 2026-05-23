@@ -71,6 +71,21 @@ public class MainController {
         colorPicker.setMaxWidth(Double.MAX_VALUE);
         colorPicker.setStyle("-fx-color-label-visible: false");
 
+        // Evita que al cerrar colorPicker, se pierda el foco en la interfaz principal.
+        colorPicker.setOnHidden(e ->{
+            javafx.application.Platform.runLater(()->{
+                javafx.stage.Stage stage =
+                        (javafx.stage.Stage) view.getScene().getWindow();
+                javafx.animation.FadeTransition fadeOut =
+                        new javafx.animation.FadeTransition(javafx.util.Duration.millis(2000), view);
+                fadeOut.setFromValue(0.3);
+                fadeOut.setToValue(1.0);
+
+                stage.toFront();
+                stage.requestFocus();
+            });
+        });
+
         colorPicker.setOnAction(e -> {
             Color c = colorPicker.getValue();
             int r = (int)( c.getRed() * 255);
@@ -118,6 +133,12 @@ public class MainController {
                         "-fx-font-size: 14px; -fx-padding: 10 20;"
         );
 
+        Button btnStrobe = new Button("STROBE");
+        btnStrobe.setStyle("-fx-background-color: #333; -fx-text-fill: white;" +
+                "-fx-font-size: 14px; -fx-padding: 10 20;"
+
+        );
+
         sliderPanel.getChildren().addAll(
                 labelFixture,
                 colorPicker,
@@ -129,9 +150,12 @@ public class MainController {
                 new Label("Yellow"), sliderY,
                 new Label("Strobe"), sliderStrobe,
                 colorPreview,
-                btnBlackout
+                btnBlackout,
+                btnStrobe
 
         );
+
+
 
         // LOGICA CUANDO SE SELECCIONA UN FIXTURE
         fixtureList.getSelectionModel().selectedIndexProperty()
@@ -279,17 +303,17 @@ public class MainController {
     }
 
     private void updatePreview(){
-        int r = (int)(sliderR.getValue());
-        int g = (int)(sliderG.getValue());
-        int b = (int)(sliderB.getValue());
-        int y = (int)(sliderY.getValue());
-        int w = (int)(sliderW.getValue());
-        int dimmer = (int)(sliderDimmer.getValue() / 255.0);
+        int r = (int)sliderR.getValue();
+        int g = (int)sliderG.getValue();
+        int b = (int)sliderB.getValue();
+        int y = (int)sliderY.getValue();
+        int w = (int)sliderW.getValue();
+        double dimmerFactor = (int)(sliderDimmer.getValue() / 255.0);
 
 
-        int previewR = (int)(Math.min(255, r+y) * 255);
-        int previewG = (int)(Math.min(255, g + (y/2) + w) * 255);
-        int previewB = (int)(Math.min(255, b + w) * 255);
+        int previewR = (int)(Math.min(255, r+y) * dimmerFactor);
+        int previewG = (int)(Math.min(255, g + (y/2) + w) * dimmerFactor);
+        int previewB = (int)(Math.min(255, b + w) * dimmerFactor);
 
         colorPreview.setFill(Color.rgb(previewR, previewG, previewB));
 
