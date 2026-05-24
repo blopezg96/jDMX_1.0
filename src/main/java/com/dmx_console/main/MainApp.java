@@ -31,16 +31,16 @@ public class MainApp extends Application {
         MainController controller = new MainController(rig, service);
 
         BorderPane root = controller.getView();
-        Scene scene = new Scene(root, 900, 600);
-        scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+        Scene scene = new Scene(root, 1200, 700);
+        scene.getStylesheets().add(getClass().getResource("/ui.css").toExternalForm());
 
         //root.prefWidthProperty().bind(scene.widthProperty());
         //root.prefHeightProperty().bind(scene.heightProperty());
 
-        stage.setMinWidth(1000);
+        stage.setScene(scene);
+        stage.setMinWidth(1100);
         stage.setMinHeight(650);
         stage.setTitle("jDMX Console");
-        stage.setScene(scene);
         stage.show();
 
     }

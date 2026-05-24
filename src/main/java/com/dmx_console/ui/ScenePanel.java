@@ -30,9 +30,12 @@ public class ScenePanel {
     }
     private void buildUI(){
         view.setPadding(new Insets(10));
-        view.setStyle("-fx-background-color: #2a2a2a;");
-        view.setPrefWidth(250);
-        view.setMinWidth(200); /////////////////////////////////////
+        view.setPrefWidth(260);
+        view.setMinWidth(220); /////////////////////////////////////
+        view.setStyle("""
+                -fx-background-color: #181818;
+                -fx-padding:10;
+                """);
 
         Label title = new Label("Escenas");
         title.setStyle("-fx-text-fill: white; -fx-font-size: 14px;"+
