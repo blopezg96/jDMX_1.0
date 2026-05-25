@@ -128,6 +128,7 @@ public class ScenePanel {
         VBox.setVgrow(sceneList, Priority.ALWAYS);
         sceneList.setMaxHeight(Double.MAX_VALUE);
         view.setMaxHeight(Double.MAX_VALUE);
+
     }
 
     // Actualizar la lista con las escenas nuevas

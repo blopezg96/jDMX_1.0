@@ -1,11 +1,10 @@
 .root {
--fx-background-color: #121212;
+-fx-background-color: #101010;
 -fx-font-family: "Segoe UI"}
 
 .slider .track{
--fx-background-color:#2a2a2a;
--fx-pref-width:6;
--fx-background-radius:3;
+-fx-background-color: #2a2a2a;
+-fx-pref-width: 6;
 }
 
 slider.thumb{
@@ -15,3 +14,4 @@ slider.thumb{
 -fx-background-radius:50%;
 -fx-effect: dropshadow(gaussian, black, 6, 0.4, 0, 1);
 }
+
