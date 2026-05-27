@@ -1,12 +1,12 @@
 [
   {
-    "name": "Primer escena",
+    "name": "Multicolor",
     "fixtureValues": {
       "PAR 5": {
         "DIMMER": 255,
         "RED": 0,
         "WHITE": 0,
-        "BLUE": 96,
+        "BLUE": 0,
         "STROBE": 0,
         "YELLOW": 0,
         "GREEN": 0
@@ -15,10 +15,10 @@
         "DIMMER": 255,
         "RED": 0,
         "WHITE": 0,
-        "BLUE": 255,
+        "BLUE": 0,
         "STROBE": 0,
         "YELLOW": 0,
-        "GREEN": 0
+        "GREEN": 255
       },
       "PAR 4": {
         "DIMMER": 255,
@@ -42,15 +42,15 @@
         "DIMMER": 255,
         "RED": 0,
         "WHITE": 0,
-        "BLUE": 0,
+        "BLUE": 254,
         "STROBE": 0,
         "YELLOW": 0,
-        "GREEN": 255
+        "GREEN": 0
       }
     }
   },
   {
-    "name": "All green",
+    "name": "segunda escena",
     "fixtureValues": {
       "PAR 5": {
         "DIMMER": 255,
@@ -59,143 +59,93 @@
         "BLUE": 0,
         "STROBE": 0,
         "YELLOW": 0,
-        "GREEN": 255
+        "GREEN": 0
       },
       "PAR 3": {
         "DIMMER": 255,
-        "RED": 0,
+        "RED": 193,
         "WHITE": 0,
         "BLUE": 0,
         "STROBE": 0,
         "YELLOW": 0,
-        "GREEN": 255
+        "GREEN": 189
       },
       "PAR 4": {
         "DIMMER": 255,
-        "RED": 0,
+        "RED": 255,
         "WHITE": 0,
         "BLUE": 0,
         "STROBE": 0,
         "YELLOW": 0,
-        "GREEN": 255
+        "GREEN": 0
       },
       "PAR 1": {
         "DIMMER": 255,
-        "RED": 0,
+        "RED": 127,
         "WHITE": 0,
-        "BLUE": 0,
+        "BLUE": 128,
         "STROBE": 0,
         "YELLOW": 0,
-        "GREEN": 255
+        "GREEN": 128
       },
       "PAR 2": {
         "DIMMER": 255,
-        "RED": 0,
+        "RED": 66,
         "WHITE": 0,
-        "BLUE": 0,
+        "BLUE": 66,
         "STROBE": 0,
         "YELLOW": 0,
-        "GREEN": 255
+        "GREEN": 64
       }
     }
   },
   {
-    "name": "All blue",
+    "name": "Colores personalizados",
     "fixtureValues": {
       "PAR 5": {
         "DIMMER": 255,
-        "RED": 0,
+        "RED": 204,
         "WHITE": 0,
-        "BLUE": 255,
+        "BLUE": 51,
         "STROBE": 0,
         "YELLOW": 0,
-        "GREEN": 0
+        "GREEN": 204
       },
       "PAR 3": {
         "DIMMER": 255,
-        "RED": 0,
+        "RED": 117,
         "WHITE": 0,
-        "BLUE": 255,
+        "BLUE": 39,
         "STROBE": 0,
         "YELLOW": 0,
-        "GREEN": 0
+        "GREEN": 155
       },
       "PAR 4": {
         "DIMMER": 255,
-        "RED": 0,
+        "RED": 22,
         "WHITE": 0,
-        "BLUE": 255,
+        "BLUE": 206,
         "STROBE": 0,
         "YELLOW": 0,
-        "GREEN": 0
+        "GREEN": 175
       },
       "PAR 1": {
         "DIMMER": 255,
-        "RED": 0,
+        "RED": 222,
         "WHITE": 0,
-        "BLUE": 255,
+        "BLUE": 27,
         "STROBE": 0,
         "YELLOW": 0,
-        "GREEN": 0
+        "GREEN": 128
       },
       "PAR 2": {
         "DIMMER": 255,
-        "RED": 0,
+        "RED": 151,
         "WHITE": 0,
-        "BLUE": 255,
+        "BLUE": 21,
         "STROBE": 0,
         "YELLOW": 0,
-        "GREEN": 0
-      }
-    }
-  },
-  {
-    "name": "Mi escena",
-    "fixtureValues": {
-      "PAR 5": {
-        "DIMMER": 255,
-        "RED": 122,
-        "WHITE": 0,
-        "BLUE": 78,
-        "STROBE": 0,
-        "YELLOW": 0,
-        "GREEN": 61
-      },
-      "PAR 3": {
-        "DIMMER": 255,
-        "RED": 12,
-        "WHITE": 0,
-        "BLUE": 125,
-        "STROBE": 0,
-        "YELLOW": 0,
-        "GREEN": 116
-      },
-      "PAR 4": {
-        "DIMMER": 255,
-        "RED": 141,
-        "WHITE": 0,
-        "BLUE": 93,
-        "STROBE": 0,
-        "YELLOW": 0,
-        "GREEN": 73
-      },
-      "PAR 1": {
-        "DIMMER": 255,
-        "RED": 23,
-        "WHITE": 0,
-        "BLUE": 125,
-        "STROBE": 0,
-        "YELLOW": 0,
-        "GREEN": 12
-      },
-      "PAR 2": {
-        "DIMMER": 255,
-        "RED": 109,
-        "WHITE": 0,
-        "BLUE": 12,
-        "STROBE": 0,
-        "YELLOW": 0,
-        "GREEN": 125
+        "GREEN": 215
       }
     }
   }

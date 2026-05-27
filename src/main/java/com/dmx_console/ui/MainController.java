@@ -5,10 +5,11 @@ import com.dmx_console.model.Fixture;
 import com.dmx_console.service.SceneService;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.*;
 import com.dmx_console.service.FixtureService;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.util.List;
@@ -52,11 +53,29 @@ public class MainController {
         for (Fixture f: rig){
             fixtureList.getItems().add(f.getName());
         }
-        fixtureList.setPrefWidth(160);
+        fixtureList.setPrefWidth(200);
+        fixtureList.setMinWidth(180);                                 /////////////////// MODIFICACION
+        fixtureList.setStyle("-fx-background-color: #191970;");       /////////////////// MODIFICACION
+
 
         // modelando panel central - sliders de cada canal
+        /// ////////////////////////////// MODIFICACIONES ////////////////////////
+        GridPane dmxGrid= new GridPane();
+        dmxGrid.setHgap(10);
+        dmxGrid.setVgap(10);
+        dmxGrid.setPadding(new Insets(15));
+      /// ///////////////////////////////// FIN MODIFICACIONES ////////////////////////////////////
+
+        /*
         VBox sliderPanel = new VBox(12);
         sliderPanel.setPadding(new Insets(20));
+        ScrollPane sliderScroll = new ScrollPane(sliderPanel);
+        sliderScroll.setFitToWidth(true);
+        sliderScroll.setFitToHeight(false);
+        sliderScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        sliderScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+*/
+
 
         Label labelFixture = new Label("Select Fixture");
         labelFixture.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
@@ -70,6 +89,24 @@ public class MainController {
         ColorPicker colorPicker = new ColorPicker(Color.BLACK);
         colorPicker.setMaxWidth(Double.MAX_VALUE);
         colorPicker.setStyle("-fx-color-label-visible: false");
+
+        colorPicker.setOnHidden(e -> {
+            javafx.application.Platform.runLater(() -> {
+                javafx.stage.Stage stage =
+                        (javafx.stage.Stage) view.getScene().getWindow();
+
+                // Fade out
+                javafx.animation.FadeTransition fadeOut =
+                        new javafx.animation.FadeTransition(
+                                javafx.util.Duration.millis(150),view);
+                fadeOut.setFromValue(0.3);
+                fadeOut.setToValue(1.0);
+
+                stage.toFront();
+                stage.requestFocus();
+                fadeOut.play();
+            });
+        });
 
         // Evita que al cerrar colorPicker, se pierda el foco en la interfaz principal.
         colorPicker.setOnHidden(e ->{
@@ -113,7 +150,11 @@ public class MainController {
             }
 
             // Actualizando preview
-            colorPreview.setFill(Color.rgb(r,g,b));
+            double dimmerFactor = sliderDimmer.getValue() / 255;
+            int previewR = (int)(r*dimmerFactor);
+            int previewG = (int)(g*dimmerFactor);
+            int previewB = (int)(b * dimmerFactor);
+            colorPreview.setFill(Color.rgb(previewR, previewG, previewB));
         });
 
          sliderDimmer = new Slider(0, 255, 255); //dimmer
@@ -139,6 +180,23 @@ public class MainController {
 
         );
 
+       ////////////////////////// MODIFICACIONES //////////////////////////////
+        HBox faders = new HBox(10);
+        faders.setPadding(new Insets(15));
+
+        faders.getChildren().addAll(
+                createFader("DIM", sliderDimmer),
+                createFader("RED", sliderR),
+                createFader("GREEN", sliderG),
+                createFader("BLUE", sliderB),
+                createFader("WHITE", sliderW),
+                createFader("YELLOW",sliderY),
+                createFader("STROBE", sliderStrobe),
+                colorPreview
+        );
+
+        /// ///////////////////// FIN DE MODIFICACIONES ///////////////////////////////////////////
+        /*
         sliderPanel.getChildren().addAll(
                 labelFixture,
                 colorPicker,
@@ -154,7 +212,7 @@ public class MainController {
                 btnStrobe
 
         );
-
+*/
 
 
         // LOGICA CUANDO SE SELECCIONA UN FIXTURE
@@ -234,22 +292,13 @@ public class MainController {
         });
 
 
-
-
-
-
-
-
-
-
-
-
         /// Final Layout
         view.setLeft(fixtureList);
-        view.setCenter(sliderPanel);
+        view.setCenter(faders);
+        // view.setCenter(sliderScroll);  ////////////////////////////////////////////////////////////////////
         view.setRight(scenePanel.getView());
         view.setStyle("-fx-background-color: #1e1e1e;");
-        sliderPanel.setStyle("-fx-background-color: #1e1e1e; -fx-text-fill: white;");
+        // sliderPanel.setStyle("-fx-background-color: #1e1e1e; -fx-text-fill: white;");
 
 
     }
@@ -259,7 +308,9 @@ public class MainController {
         slider.setShowTickMarks(true);
         slider.setShowTickLabels(true);
         slider.setMajorTickUnit(64);
-        slider.setPrefWidth(400);
+        //slider.setPrefWidth(400);
+        slider.setMaxWidth(Double.MAX_VALUE); ////////////////////////////////////
+        VBox.setVgrow(slider, Priority.NEVER); ///////////////////////////////////
         return slider;
     }
 
@@ -270,7 +321,7 @@ public class MainController {
     public void updateSliders(Fixture fixture){
         if(fixture == null) return;
 
-        //Deshabilidar listeners para evitar loops
+        //Deshabilitar listeners para evitar loops
         sliderR.valueProperty().removeListener(dmxListener);
         sliderG.valueProperty().removeListener(dmxListener);
         sliderB.valueProperty().removeListener(dmxListener);
@@ -322,6 +373,26 @@ public class MainController {
     public Fixture getSelectedFixture(){
         return selectedFixture;
 
+    }
+
+    private VBox createFader(String name, Slider slider){
+
+        Label lbl = new Label(name);
+        lbl.setStyle("-fx-text-fill:white; -fx-font-size:11;");
+
+        slider.setOrientation(Orientation.VERTICAL);
+        slider.setPrefHeight(180);
+        slider.setMaxHeight(Double.MAX_VALUE);
+
+        VBox box = new VBox(8, lbl, slider);
+        box.setStyle("""
+                -fx-background-color:#1a1a1a;
+                -fx-padding:8;
+                -fx-background-radius:6;
+                """);
+
+        box.setAlignment(Pos.CENTER);
+        return box;
     }
 
 

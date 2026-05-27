@@ -5,6 +5,7 @@ import com.dmx_console.model.Scene;
 import com.dmx_console.service.SceneService;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 import java.util.List;
@@ -29,8 +30,12 @@ public class ScenePanel {
     }
     private void buildUI(){
         view.setPadding(new Insets(10));
-        view.setStyle("-fx-background-color: #2a2a2a;");
-        view.setPrefWidth(200);
+        view.setPrefWidth(260);
+        view.setMinWidth(220); /////////////////////////////////////
+        view.setStyle("""
+                -fx-background-color: #181818;
+                -fx-padding:10;
+                """);
 
         Label title = new Label("Escenas");
         title.setStyle("-fx-text-fill: white; -fx-font-size: 14px;"+
@@ -119,6 +124,10 @@ public class ScenePanel {
                 btnApply,
                 btnDelete
         );
+
+        VBox.setVgrow(sceneList, Priority.ALWAYS);
+        sceneList.setMaxHeight(Double.MAX_VALUE);
+        view.setMaxHeight(Double.MAX_VALUE);
     }
 
     // Actualizar la lista con las escenas nuevas
