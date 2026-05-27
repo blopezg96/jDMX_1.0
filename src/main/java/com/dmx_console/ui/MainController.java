@@ -16,6 +16,22 @@ import java.util.List;
 
 public class MainController {
 
+    private static final String BG_BASE = "#0a0a0f";
+    private static final String BG_PANEL = "#12121a";
+    private static final String BG_CARD = "#1a1a28";
+    private static final String BG_ELEVATED = "#22223a";
+    private static final String ACCENT = "#f0a500";
+    private static final String ACCENT_DIM = "#7a5200";
+    private static final String TEXT_PRIMARY = "#e8e8f0";
+    private static final String TEXT_MUTED = "#6a6a8a";
+    private static final String RED_CH = "#ff3a3a";
+    private static final String GREEN_CH = "#3aff6a";
+    private static final String BLUE_CH = "#3a8aff";
+    private static final String WHITE_CH = "#e8e8e8";
+    private static final String YELLOW_CH = "#ffe53a";
+    private static final String STROBE_CH = "#aa3aff";
+    private static final String DIM_CH = "#ff8c3a";
+
     private final List<Fixture> rig;
     private final FixtureService service;
     private final BorderPane view;
@@ -30,6 +46,8 @@ public class MainController {
     private Slider sliderW;
     private Slider sliderStrobe;
     private Slider sliderDimmer;
+    private HBox faderBank;
+    private int currentPage = 1;
 
 
     private Fixture selectedFixture;
@@ -48,6 +66,10 @@ public class MainController {
 
     private void buildUI(){
 
+        HBox toolbar = new HBox();
+        toolbar.setPadding(new Insets(8,16,8,16));
+        toolbar.setAlignment(Pos.BASELINE_LEFT);
+
         // Modelar panel izquierdo - Lista de Fixtures
         ListView<String> fixtureList = new ListView<>();
         for (Fixture f: rig){
@@ -64,17 +86,6 @@ public class MainController {
         dmxGrid.setHgap(10);
         dmxGrid.setVgap(10);
         dmxGrid.setPadding(new Insets(15));
-      /// ///////////////////////////////// FIN MODIFICACIONES ////////////////////////////////////
-
-        /*
-        VBox sliderPanel = new VBox(12);
-        sliderPanel.setPadding(new Insets(20));
-        ScrollPane sliderScroll = new ScrollPane(sliderPanel);
-        sliderScroll.setFitToWidth(true);
-        sliderScroll.setFitToHeight(false);
-        sliderScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        sliderScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-*/
 
 
         Label labelFixture = new Label("Select Fixture");
@@ -109,19 +120,7 @@ public class MainController {
         });
 
         // Evita que al cerrar colorPicker, se pierda el foco en la interfaz principal.
-        colorPicker.setOnHidden(e ->{
-            javafx.application.Platform.runLater(()->{
-                javafx.stage.Stage stage =
-                        (javafx.stage.Stage) view.getScene().getWindow();
-                javafx.animation.FadeTransition fadeOut =
-                        new javafx.animation.FadeTransition(javafx.util.Duration.millis(2000), view);
-                fadeOut.setFromValue(0.3);
-                fadeOut.setToValue(1.0);
 
-                stage.toFront();
-                stage.requestFocus();
-            });
-        });
 
         colorPicker.setOnAction(e -> {
             Color c = colorPicker.getValue();
@@ -180,7 +179,8 @@ public class MainController {
 
         );
 
-       ////////////////////////// MODIFICACIONES //////////////////////////////
+
+      ////////////////////// HBOX QUE CONTIENE A LOS FADERS (SLIDERS)
         HBox faders = new HBox(10);
         faders.setPadding(new Insets(15));
 
@@ -195,24 +195,8 @@ public class MainController {
                 colorPreview
         );
 
-        /// ///////////////////// FIN DE MODIFICACIONES ///////////////////////////////////////////
-        /*
-        sliderPanel.getChildren().addAll(
-                labelFixture,
-                colorPicker,
-                new Label("Dimmer"), sliderDimmer, //dimmer
-                new Label("Red"), sliderR,
-                new Label("Green"), sliderG,
-                new Label("Blue"), sliderB,
-                new Label("White"), sliderW,
-                new Label("Yellow"), sliderY,
-                new Label("Strobe"), sliderStrobe,
-                colorPreview,
-                btnBlackout,
-                btnStrobe
 
-        );
-*/
+
 
 
         // LOGICA CUANDO SE SELECCIONA UN FIXTURE
@@ -292,6 +276,8 @@ public class MainController {
         });
 
 
+
+
         /// Final Layout
         view.setLeft(fixtureList);
         view.setCenter(faders);
@@ -313,6 +299,8 @@ public class MainController {
         VBox.setVgrow(slider, Priority.NEVER); ///////////////////////////////////
         return slider;
     }
+
+
 
     public BorderPane getView(){
         return view;
@@ -383,18 +371,24 @@ public class MainController {
         slider.setOrientation(Orientation.VERTICAL);
         slider.setPrefHeight(180);
         slider.setMaxHeight(Double.MAX_VALUE);
+        slider.setShowTickLabels(false);
+        slider.setShowTickMarks(true);
 
-        VBox box = new VBox(8, lbl, slider);
+        VBox box = new VBox(8);
+        box.getChildren().addAll(
+                lbl,
+                slider
+        );
+        box.setAlignment(Pos.CENTER);
         box.setStyle("""
                 -fx-background-color:#1a1a1a;
-                -fx-padding:8;
+                -fx-padding:10;
                 -fx-background-radius:6;
+                -fx-border-color: #2a2a2a;
                 """);
 
-        box.setAlignment(Pos.CENTER);
         return box;
     }
-
 
 
 
