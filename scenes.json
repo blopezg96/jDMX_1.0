@@ -1,0 +1,202 @@
+[
+  {
+    "name": "Primer escena",
+    "fixtureValues": {
+      "PAR 5": {
+        "DIMMER": 255,
+        "RED": 0,
+        "WHITE": 0,
+        "BLUE": 96,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 0
+      },
+      "PAR 3": {
+        "DIMMER": 255,
+        "RED": 0,
+        "WHITE": 0,
+        "BLUE": 255,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 0
+      },
+      "PAR 4": {
+        "DIMMER": 255,
+        "RED": 255,
+        "WHITE": 0,
+        "BLUE": 0,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 0
+      },
+      "PAR 1": {
+        "DIMMER": 255,
+        "RED": 255,
+        "WHITE": 0,
+        "BLUE": 0,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 0
+      },
+      "PAR 2": {
+        "DIMMER": 255,
+        "RED": 0,
+        "WHITE": 0,
+        "BLUE": 0,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 255
+      }
+    }
+  },
+  {
+    "name": "All green",
+    "fixtureValues": {
+      "PAR 5": {
+        "DIMMER": 255,
+        "RED": 0,
+        "WHITE": 0,
+        "BLUE": 0,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 255
+      },
+      "PAR 3": {
+        "DIMMER": 255,
+        "RED": 0,
+        "WHITE": 0,
+        "BLUE": 0,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 255
+      },
+      "PAR 4": {
+        "DIMMER": 255,
+        "RED": 0,
+        "WHITE": 0,
+        "BLUE": 0,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 255
+      },
+      "PAR 1": {
+        "DIMMER": 255,
+        "RED": 0,
+        "WHITE": 0,
+        "BLUE": 0,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 255
+      },
+      "PAR 2": {
+        "DIMMER": 255,
+        "RED": 0,
+        "WHITE": 0,
+        "BLUE": 0,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 255
+      }
+    }
+  },
+  {
+    "name": "All blue",
+    "fixtureValues": {
+      "PAR 5": {
+        "DIMMER": 255,
+        "RED": 0,
+        "WHITE": 0,
+        "BLUE": 255,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 0
+      },
+      "PAR 3": {
+        "DIMMER": 255,
+        "RED": 0,
+        "WHITE": 0,
+        "BLUE": 255,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 0
+      },
+      "PAR 4": {
+        "DIMMER": 255,
+        "RED": 0,
+        "WHITE": 0,
+        "BLUE": 255,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 0
+      },
+      "PAR 1": {
+        "DIMMER": 255,
+        "RED": 0,
+        "WHITE": 0,
+        "BLUE": 255,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 0
+      },
+      "PAR 2": {
+        "DIMMER": 255,
+        "RED": 0,
+        "WHITE": 0,
+        "BLUE": 255,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 0
+      }
+    }
+  },
+  {
+    "name": "Mi escena",
+    "fixtureValues": {
+      "PAR 5": {
+        "DIMMER": 255,
+        "RED": 122,
+        "WHITE": 0,
+        "BLUE": 78,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 61
+      },
+      "PAR 3": {
+        "DIMMER": 255,
+        "RED": 12,
+        "WHITE": 0,
+        "BLUE": 125,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 116
+      },
+      "PAR 4": {
+        "DIMMER": 255,
+        "RED": 141,
+        "WHITE": 0,
+        "BLUE": 93,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 73
+      },
+      "PAR 1": {
+        "DIMMER": 255,
+        "RED": 23,
+        "WHITE": 0,
+        "BLUE": 125,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 12
+      },
+      "PAR 2": {
+        "DIMMER": 255,
+        "RED": 109,
+        "WHITE": 0,
+        "BLUE": 12,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 125
+      }
+    }
+  }
+]
