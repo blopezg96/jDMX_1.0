@@ -148,5 +148,55 @@
         "GREEN": 215
       }
     }
+  },
+  {
+    "name": "FLAG",
+    "fixtureValues": {
+      "PAR 5": {
+        "DIMMER": 255,
+        "RED": 255,
+        "WHITE": 0,
+        "BLUE": 0,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 0
+      },
+      "PAR 3": {
+        "DIMMER": 255,
+        "RED": 255,
+        "WHITE": 255,
+        "BLUE": 255,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 255
+      },
+      "PAR 4": {
+        "DIMMER": 255,
+        "RED": 255,
+        "WHITE": 0,
+        "BLUE": 0,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 0
+      },
+      "PAR 1": {
+        "DIMMER": 255,
+        "RED": 0,
+        "WHITE": 0,
+        "BLUE": 0,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 255
+      },
+      "PAR 2": {
+        "DIMMER": 255,
+        "RED": 0,
+        "WHITE": 0,
+        "BLUE": 0,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 255
+      }
+    }
   }
 ]
