@@ -3,6 +3,7 @@ package com.dmx_console.ui;
 import com.dmx_console.model.ChannelFunction;
 import com.dmx_console.model.Fixture;
 import com.dmx_console.service.SceneService;
+import javafx.animation.Animation;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -42,6 +43,7 @@ public class MainController {
     private final ScenePanel scenePanel;
     private ChangeListener<Number> dmxListener;
     private javafx.scene.shape.Rectangle colorPreview;
+    private javafx.animation.Timeline strobeTimeLine;
     private Slider sliderR;
     private Slider sliderG;
     private Slider sliderB;
@@ -50,7 +52,8 @@ public class MainController {
     private Slider sliderStrobe;
     private Slider sliderDimmer;
     private HBox faderBank;
-    private int currentPage = 1;
+    private int[] savedValues = new int[7];
+
 
 
     private Fixture selectedFixture;
@@ -125,11 +128,22 @@ public class MainController {
                 
                 """);
 
-        blackOutAll.setOnAction(e -> service.blackoutAll());
+        blackOutAll.setOnAction(e -> {
+            if (strobeTimeLine != null){
+                strobeTimeLine.stop();
+            }
+            service.blackoutAll();
+            updateSliders(selectedFixture);
+            updatePreview();
+        });
 
         toolbar.getChildren().addAll(
                 appTitle, appSubtitle, spacer, universeLabel, blackOutAll
         );
+
+
+
+
 
 
         // Modelar panel izquierdo - Lista de Fixtures
@@ -156,11 +170,12 @@ public class MainController {
         fixtureList.setStyle("-fx-background-color: transparent;" +
                 "-fx-border-color: transparent;"
         );
-        VBox.setVgrow(fixtureList, Priority.ALWAYS);                              /////////////////// MODIFICACION
+        VBox.setVgrow(fixtureList, Priority.ALWAYS);
 
         fixtureList.setCellFactory(lv -> new ListCell<>(){
             @Override
             protected void updateItem(Fixture item, boolean empty){
+                super.updateItem(item, empty);
                 if(empty || item ==null){
                     setGraphic(null);
                     setText(null);
@@ -182,6 +197,7 @@ public class MainController {
                                 "-fx-text-fill: " + TEXT_PRIMARY + ";"
                 );
 
+                // direccion en la que se encuentra el fixture
                 Label addr = new Label("@" + item.getAddress());
                 addr.setStyle(
                         "-fx-font-fsmily: 'Courier New';" +
@@ -191,6 +207,8 @@ public class MainController {
 
                 Region sp = new Region();
                 HBox.setHgrow(sp, Priority.ALWAYS);
+
+
                 cell.getChildren().addAll(dot, name, sp, addr);
                 setGraphic(cell);
                 setText(null);
@@ -211,7 +229,7 @@ public class MainController {
         centerPanel.setStyle("-fx-background-color: " + BG_BASE + ";");
         VBox.setVgrow(centerPanel, Priority.ALWAYS);
 
-        // Headerde fixture seleccionado}
+        // Header fixture seleccionado}
         HBox fixtureHeader = new HBox(12);
         fixtureHeader.setPadding(new Insets(12,16,12,16));
         fixtureHeader.setAlignment(Pos.CENTER_LEFT);
@@ -236,7 +254,7 @@ public class MainController {
         );
 
         ColorPicker colorPicker = new ColorPicker(Color.BLACK);
-        colorPicker.setStyle("-fx-color-label-visible: false");
+        colorPicker.setStyle("-fx-color-label-visible: false;");
 
         Region headerSpacer = new Region();
         HBox.setHgrow(headerSpacer, Priority.ALWAYS);
@@ -285,26 +303,150 @@ public class MainController {
                 buildFaderColumn("STRB", sliderStrobe, STROBE_CH)
         );
 
-        /// Boton blackOut fixture
+        /// Button blackOut fixture
 
         Button btnBlackout = new Button("BLACKOUT FIXTURE");
         btnBlackout.setMaxWidth(Double.MAX_VALUE);
-        btnBlackout.setStyle("-fx-background-color: #2a0000;" +
-                "-fx-text-fill: #ff666;" +
+        btnBlackout.setStyle("-fx-background-color: #191970;" +
+                "-fx-text-fill: #ff6666;" +
                 "-fx-font-family: 'Courier New';" +
                 "-fx-font-size: 12px;" +
                 "-fx-font-weight: bold;" +
                 "-fx-padding: 10;" +
-                "-fx-background-radius: 0;" +
+                "-fx-background-radius: 4;" +
                 "-fx-cursor: hand;"
 
         );
 
+        btnBlackout.setOnMouseEntered(e -> {
+            btnBlackout.setStyle(
+                    "-fx-background-color: #000080;" +
+                            "-fx-text-fill: #ff6666;" +
+                            "-fx-font-family: 'Courier New';" +
+                            "-fx-font-size: 12px;" +
+                            "-fx-font-weight: bold;" +
+                            "-fx-padding: 10;" +
+                            "-fx-background-radius: 4;" +
+                            "-fx-cursor: hand;"
+            );
+        });
+
+        btnBlackout.setOnMouseExited(e -> {
+            btnBlackout.setStyle(
+                    "-fx-background-color: #191970;" +
+                            "-fx-text-fill: #ff6666;" +
+                            "-fx-font-family: 'Courier New';" +
+                            "-fx-font-size: 12px;" +
+                            "-fx-font-weight: bold;" +
+                            "-fx-padding: 10;" +
+                            "-fx-background-radius: 4;" +
+                            "-fx-cursor: hand;"
+            );
+        });
+
+        Button btnBump = new Button("HOLD BLACKOUT");
+        btnBump.setMaxWidth(Double.MAX_VALUE);
+        btnBump.setStyle(
+                "-fx-background-color: #191970;" +
+                        "-fx-text-fill: #ff4444;" +
+                        "-fx-font-family: 'Courier New';" +
+                        "-fx-font-size: 12px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-padding: 10;" +
+                        "-fx-background-radius: 4;" +
+                        "-fx-cursor: hand;"
+        );
+
+        btnBump.setOnMouseEntered(e ->{
+            btnBump.setStyle(
+                    "-fx-background-color: #000080;" +
+                            "-fx-text-fill: #ff4444;" +
+                            "-fx-font-family: 'Courier New';" +
+                            "-fx-font-size: 12px;" +
+                            "-fx-font-weight: bold;" +
+                            "-fx-padding: 10;" +
+                            "-fx-background-radius: 4;" +
+                            "-fx-cursor: hand;"
+            );
+        });
+
+        btnBump.setOnMouseExited(e -> {
+            btnBump.setStyle(
+                    "-fx-background-color: #191970;" +
+                            "-fx-text-fill: #ff4444;" +
+                            "-fx-font-family: 'Courier New';" +
+                            "-fx-font-size: 12px;" +
+                            "-fx-font-weight: bold;" +
+                            "-fx-padding: 10;" +
+                            "-fx-background-radius: 4;" +
+                            "-fx-cursor: hand;"
+            );
+        });
+
+        btnBump.setOnMousePressed(e -> {
+            if(selectedFixture == null) return;
+
+            savedValues[0] = (int)  sliderDimmer.getValue();
+            savedValues[1] = (int)  sliderR.getValue();
+            savedValues[2] = (int)  sliderG.getValue();
+            savedValues[3] = (int)  sliderB.getValue();
+            savedValues[4] = (int)  sliderW.getValue();
+            savedValues[5] = (int)  sliderY.getValue();
+            savedValues[6] = (int)  sliderStrobe.getValue();
+
+
+            if(strobeTimeLine != null){
+                strobeTimeLine.pause();
+            }
+            service.blackout(selectedFixture);
+
+            btnBump.setStyle(
+                    "-fx-background-color: #8b0000;" +
+                            "-fx-text-fill: white;" +
+                            "-fx-font-family: 'Courier New';"+
+                            "-fx-font-size: 12px;" +
+                            "-fx-font-weight: bold;" +
+                            "-fx-padding: 10;" +
+                            "-fx-background-radius: 0;"+
+                            "-fx-cursor: hand;"
+            );
+            colorPreview.setFill(Color.BLACK);
+        });
+
+        btnBump.setOnMouseReleased(e -> {
+            if(selectedFixture == null) return;
+
+            service.setChannel(selectedFixture, ChannelFunction.DIMMER, savedValues[0]);
+            service.setChannel(selectedFixture, ChannelFunction.RED, savedValues[1]);
+            service.setChannel(selectedFixture, ChannelFunction.GREEN, savedValues[2]);
+            service.setChannel(selectedFixture, ChannelFunction.BLUE, savedValues[3]);
+            service.setChannel(selectedFixture, ChannelFunction.WHITE, savedValues[4]);
+            service.setChannel(selectedFixture, ChannelFunction.YELLOW, savedValues[5]);
+            service.setChannel(selectedFixture, ChannelFunction.STROBE, savedValues[6]);
+
+            if (strobeTimeLine != null){
+                strobeTimeLine.play();
+            }
+
+            btnBump.setStyle("-fx-background-color: #1a0000;" +
+                    "-fx-text-fill: #ff4444;" +
+                    "-fx-font-family: 'Courier New';" +
+                    "-fx-font-size: 12px;" +
+                    "-fx-font-weight: bold;" +
+                    "-fx-padding: 10;" +
+                    "-fx-background-radius: 0;" +
+                    "-fx-cursor: hand;"
+            );
+            updatePreview();
+            updateStrobe();
+        });
+
         centerPanel.getChildren().addAll(
                 fixtureHeader,
                 colorPreview,
-                fadersRow,
-                btnBlackout
+                btnBump,
+                btnBlackout,
+                fadersRow
         );
 
         // LOGICA CUANDO SE SELECCIONA UN FIXTURE
@@ -317,6 +459,7 @@ public class MainController {
                             + "." + newVal.getProfile().getName());
 
                     updateSliders(selectedFixture);
+                    sliderDimmer.setValue(255);
 
                 });
 
@@ -339,7 +482,9 @@ public class MainController {
             service.setChannel(selectedFixture, ChannelFunction.YELLOW, y);
             service.setChannel(selectedFixture, ChannelFunction.STROBE, strobe);
             service.setChannel(selectedFixture, ChannelFunction.DIMMER, dimmer);
+
             updatePreview();
+            updateStrobe();
 
         };
 
@@ -365,6 +510,30 @@ public class MainController {
         });
 
         /// Color picker
+
+        colorPicker.setOnAction(e -> {
+            Color c = colorPicker.getValue();
+            int r = (int) (c.getRed() * 255);
+            int g = (int) (c.getGreen()* 255);
+            int b = (int) (c.getBlue() * 255);
+
+            sliderR.valueProperty().removeListener(dmxListener);
+            sliderG.valueProperty().removeListener(dmxListener);
+            sliderB.valueProperty().removeListener(dmxListener);
+            sliderR.setValue(r);
+            sliderG.setValue(g);
+            sliderB.setValue(b);
+            sliderR.valueProperty().addListener(dmxListener);
+            sliderG.valueProperty().addListener(dmxListener);
+            sliderB.valueProperty().addListener(dmxListener);
+
+            if(selectedFixture != null ){
+                service.setColor(selectedFixture, r ,g, b);
+                updatePreview();
+            }
+
+        });
+
         colorPicker.setOnHidden(e ->
             javafx.application.Platform.runLater(() -> {
                 javafx.stage.Stage stage =
@@ -387,7 +556,7 @@ public class MainController {
         view.setLeft(leftPanel);
         view.setCenter(centerPanel);
         view.setRight(scenePanel.getView());
-        view.setStyle("-fx-background-radius: " + BG_BASE + ";");
+        view.setStyle("-fx-background-color: " + BG_BASE + ";");
 
         BorderPane.setMargin(leftPanel, new Insets(0));
         BorderPane.setMargin(centerPanel, new Insets(0));
@@ -452,6 +621,7 @@ public class MainController {
         sliderStrobe.valueProperty().addListener(dmxListener);
 
         updatePreview();
+        updateStrobe();
 
 
     }
@@ -462,7 +632,8 @@ public class MainController {
         int b = (int)sliderB.getValue();
         int y = (int)sliderY.getValue();
         int w = (int)sliderW.getValue();
-        double dimmerFactor = (int)(sliderDimmer.getValue() / 255.0);
+
+        double dimmerFactor = (sliderDimmer.getValue() / 255.0); /// muestra progresivamente el color segun el dimmer
 
 
         int previewR = (int)(Math.min(255, r+y) * dimmerFactor);
@@ -477,9 +648,6 @@ public class MainController {
         return selectedFixture;
 
     }
-
-
-
 
 
     private Slider createFaderSlider(){
@@ -539,6 +707,39 @@ public class MainController {
     sep.setStyle("-fx-background-color: " + BG_ELEVATED + ";");
     sep.setPrefHeight(Double.MAX_VALUE);
     return sep;
+     }
+
+     private void updateStrobe(){
+        int strobeValue = (int) sliderStrobe.getValue();
+
+        if(strobeTimeLine != null){
+            strobeTimeLine.stop();
+            strobeTimeLine = null;
+        }
+        if(strobeValue == 0){
+            updatePreview();
+            return;
+        }
+
+        double fps = 1 + (strobeValue/255.0) * 19;
+        double intervalMs = 1000.0 / fps;
+
+        strobeTimeLine = new javafx.animation.Timeline(
+                new javafx.animation.KeyFrame(
+                        javafx.util.Duration.millis(intervalMs),
+                        e -> {
+                            if(colorPreview.getFill().equals(Color.BLACK)){
+                                updatePreview();
+                            } else {
+                                colorPreview.setFill(Color.BLACK);
+                            }
+                        }
+                )
+        );
+        strobeTimeLine.setCycleCount(Animation.INDEFINITE);
+        strobeTimeLine.play();
+
+
      }
 
 }
