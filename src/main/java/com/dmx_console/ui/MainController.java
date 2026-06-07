@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import com.dmx_console.service.FixtureService;
 import javafx.scene.paint.Color;
+import javafx.scene.effect.DropShadow;
 
 import java.util.List;
 
@@ -53,6 +54,7 @@ public class MainController {
     private Slider sliderDimmer;
     private HBox faderBank;
     private int[] savedValues = new int[7];
+    private final ListView<Fixture> fixtureList = new ListView<>();
 
 
 
@@ -82,7 +84,20 @@ public class MainController {
                         "-fx-border-color: " + ACCENT_DIM + ";" +
                         "-fx-border-width: 0 0 1 0;"
         );
+
+
 */
+
+        VBox stat512 = buildStat("512", "CHANNELS");
+        VBox statLive = buildStatGreen("LIVE", "STATUS");
+        VBox statU = buildStat("U-1", "UNIVERSE");
+
+        Separator sep1 = new Separator(Orientation.VERTICAL);
+        sep1.setStyle("-fx-background-color: #0a2a4a");
+        Separator sep2 = new Separator(Orientation.VERTICAL);
+        sep2.setStyle("-fx-background-color: #0a2a4a");
+        Separator sep3 = new Separator(Orientation.VERTICAL);
+        sep3.setStyle("-fx-background-color: #0a2a4a");
 
 
         Label appTitle = new Label("jDMX");
@@ -155,7 +170,9 @@ public class MainController {
         });
 
         toolbar.getChildren().addAll(
-                appTitle, appSubtitle, spacer, universeLabel, blackOutAll
+                appTitle, appSubtitle, spacer,
+                stat512, sep1, statLive, sep2, statU, sep3,
+                blackOutAll
         );
 
 
@@ -187,7 +204,7 @@ public class MainController {
          ); */
 
 
-        ListView<Fixture> fixtureList = new ListView<>();
+
         fixtureList.getItems().addAll(rig);
         fixtureList.getStyleClass().add("hw-fixture-cell");
         /*
@@ -216,8 +233,21 @@ public class MainController {
                     /// ICONO COLORIDO DE FIXTURE
 
                 javafx.scene.shape.Circle dot = new javafx.scene.shape.Circle(5);
-                dot.setFill(Color.web("#333355"));
+                int r = service.getChannelValue(item, ChannelFunction.RED);
+                int g = service.getChannelValue(item, ChannelFunction.GREEN);
+                int b = service.getChannelValue(item, ChannelFunction.BLUE);
+                int dim = service.getChannelValue(item, ChannelFunction.DIMMER);
+                double f = dim/255.0;
+
+                Color dotColor = (r+g+b == 0)
+                        ? Color.web("#1a3a5a")
+                        : Color.rgb((int)(r*f), (int)(g*f), (int)(b*f));
+
+                dot.setFill(dotColor);
                 dot.setId("dot_" + item.getName());
+                dot.setEffect(new javafx.scene.effect.DropShadow(
+                        6, dotColor
+                ));
 
                 Label name = new Label(item.getName());
                 name.setStyle(
@@ -323,7 +353,7 @@ public class MainController {
 
         HBox fadersRow = new HBox(6);
         //fadersRow.setPadding(new Insets(20, 16, 20, 16));
-        fadersRow.setPadding(new Insets(40,16,40,16));
+        fadersRow.setPadding(new Insets(15,45,15,45));
         fadersRow.setAlignment(Pos.BOTTOM_CENTER);
         fadersRow.setStyle("-fx-background-color: "+BG_BASE + ";");
         VBox.setVgrow(fadersRow, Priority.ALWAYS);
@@ -440,9 +470,10 @@ public class MainController {
         centerPanel.getChildren().addAll(
                 fixtureHeader,
                 colorPreview,
-                btnBump,
                 btnBlackout,
+                btnBump,
                 fadersRow
+
         );
 
         // LOGICA CUANDO SE SELECCIONA UN FIXTURE
@@ -479,8 +510,11 @@ public class MainController {
             service.setChannel(selectedFixture, ChannelFunction.STROBE, strobe);
             service.setChannel(selectedFixture, ChannelFunction.DIMMER, dimmer);
 
+            updateFixtureDot(selectedFixture);
+
             updatePreview();
             updateStrobe();
+            fixtureList.refresh();
 
         };
 
@@ -546,6 +580,9 @@ public class MainController {
             })
         );
 
+
+
+
         // LAYOUT FINAL :
 
         view.setTop(toolbar);
@@ -565,20 +602,6 @@ public class MainController {
         scenePanel.getView().getStyleClass().add("hw-right");
 
         }
-
-
-
-    public Slider createSlider(){
-        Slider slider = new Slider(0, 255, 0);
-        slider.setShowTickMarks(true);
-        slider.setShowTickLabels(true);
-        slider.setMajorTickUnit(64);
-        //slider.setPrefWidth(400);
-        slider.setMaxWidth(Double.MAX_VALUE); ////////////////////////////////////
-        VBox.setVgrow(slider, Priority.NEVER); ///////////////////////////////////
-        return slider;
-    }
-
 
 
     public BorderPane getView()
@@ -651,7 +674,7 @@ public class MainController {
 
     Slider slider = new Slider(0, 255, 0);
     slider.setOrientation(Orientation.VERTICAL);
-    slider.setPrefHeight(220);
+    slider.setPrefHeight(320);
     slider.setMaxHeight(Double.MAX_VALUE);
     slider.setShowTickMarks(true);
     slider.setShowTickLabels(false);
@@ -755,6 +778,52 @@ public class MainController {
 
 
      }
+
+     private VBox buildStat(String value, String label){
+        Label val = new Label(value);
+        val.getStyleClass().add("hw-stat-val");
+        Label lbl = new Label(label);
+        lbl.getStyleClass().add("hw-stat-lbl");
+        VBox box = new VBox(2, val, lbl);
+        box.setAlignment(Pos.CENTER);
+        box.setPadding(new Insets(0, 12, 0, 12));
+        return box;
+     }
+
+     private VBox buildStatGreen(String value, String label){
+        Label val = new Label(value);
+        val.getStyleClass().add("hw-stat-val-green");
+        Label lbl = new Label(label);
+        lbl.getStyleClass().add("hw-stat-lbl");
+        VBox box = new VBox(2, val, lbl);
+        box.setAlignment(Pos.CENTER);
+        box.setPadding(new Insets(0, 12, 0, 12));
+
+        return box;
+     }
+
+
+    private void updateFixtureDot(Fixture fixture){
+
+        int r = service.getChannelValue(fixture, ChannelFunction.RED);
+        int g = service.getChannelValue(fixture, ChannelFunction.GREEN);
+        int b = service.getChannelValue(fixture, ChannelFunction.BLUE);
+        int dimmer = service.getChannelValue(fixture, ChannelFunction.DIMMER);
+        double factor = dimmer /255.0;
+
+        Color dotColor = Color.rgb(
+                (int)(r * factor),
+                (int)(g * factor),
+                (int)(b * factor)
+        );
+
+        fixtureList.lookupAll(".list-cell").forEach(node -> {
+
+        });
+        fixtureList.refresh();
+
+    }
+
 
 }
 
