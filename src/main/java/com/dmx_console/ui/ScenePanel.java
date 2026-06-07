@@ -32,44 +32,62 @@ public class ScenePanel {
         view.setPadding(new Insets(10));
         view.setPrefWidth(260);
         view.setMinWidth(220); /////////////////////////////////////
+        view.getStyleClass().add("hw-right");
+        /*
         view.setStyle("""
                 -fx-background-color: #181818;
                 -fx-padding:10;
                 """);
+*/
 
         Label title = new Label("Escenas");
+        title.getStyleClass().add("hw-scenes-label");
+        /*
         title.setStyle("-fx-text-fill: white; -fx-font-size: 14px;"+
         "fx-font-weight: bold; ");
+*/
 
         // Nombrar una nueva escena
         TextField nameField = new TextField();
         nameField.setPromptText("Nombre de escena: ");
-        nameField.setStyle("-fx-background-color: #3a3a3a;" +
-                "-fx-text-fill: white;");
+        nameField.getStyleClass().add("hw-scenes-input");
+
+        /* nameField.setStyle("-fx-background-color: #3a3a3a;" +
+                "-fx-text-fill: white;"); */
 
         // Boton para capturar una escena actual
         Button btnCapture = new Button("Capturar escena");
         btnCapture.setMaxWidth(Double.MAX_VALUE);
+        btnCapture.getStyleClass().add("hw-btn-capture");
+        /*
         btnCapture.setStyle("-fx-background-color: #e67e22;" +
                 "-fx-text-fill: white; -fx-font-weight:" +
-                "bold;");
+                "bold;"); */
 
         // Boton de apply una escena seleccionada.
         Button btnApply = new Button("Aplicar");
         btnApply.setMaxWidth(Double.MAX_VALUE);
+        btnApply.getStyleClass().add("hw-btn-apply");
+        /*
         btnApply.setStyle("-fx-background-color: #27ae60;" +
                 "-fx-text-fill: white; -fx-font-weight: " +
                 "bold;");
+       */
 
         // Boton para eliminar una escena
         Button btnDelete = new Button("Eliminar escena");
         btnDelete.setMaxWidth(Double.MAX_VALUE);
+        btnDelete.getStyleClass().add("hw-btn-delete");
+        /*
         btnDelete.setStyle("-fx-background-color: #c0392b;" +
                 "-fx-text-fill: white; -fx-font-weight: " +
                 "bold;");
+*/
 
+        sceneList.getStyleClass().add("hw-scene-list");
+        /*
         sceneList.setStyle("-fx-background-color: #3a3a3a;" +
-                "-fx-text-fill: white;");
+                "-fx-text-fill: white;"); */
         sceneList.setPrefHeight(200);
 
         // LOGICA DE LA UI

@@ -3,6 +3,7 @@ package com.dmx_console.main;
 import com.dmx_console.model.Fixture;
 import com.dmx_console.dmx.Universe;
 import javafx.application.Application;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -14,10 +15,19 @@ import com.dmx_console.ui.MainController;
 
 import java.util.List;
 
+import static javax.print.attribute.standard.MediaSizeName.C;
+
 public class MainApp extends Application {
 
     @Override
     public void start(Stage stage){
+
+        javafx.scene.text.Font.loadFont(
+                getClass().getResourceAsStream(
+                        "src/main/resources/fonts/Orbitron-Bold.ttf"), 12);
+        javafx.scene.text.Font.loadFont(getClass().getResourceAsStream(
+                "src/main/resources/fonts/ShareTechMono-Regular.ttf"), 12);
+        javafx.scene.text.Font.loadFont(getClass().getResourceAsStream("src/main/resources/fonts/VT323-Regular.ttf"),12);
 
         // --- BACKEND ---
         Universe universe = new Universe();
@@ -32,7 +42,8 @@ public class MainApp extends Application {
 
         BorderPane root = controller.getView();
         Scene scene = new Scene(root, 1200, 700);
-        scene.getStylesheets().add(getClass().getResource("/ui.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+        scene.setCursor(Cursor.CROSSHAIR);
 
         //root.prefWidthProperty().bind(scene.widthProperty());
         //root.prefHeightProperty().bind(scene.heightProperty());

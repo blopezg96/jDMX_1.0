@@ -1,0 +1,337 @@
+/* ══════════════════════════════════════════
+   jDMX CONSOLE — IMPERIAL HOLO THEME
+   ══════════════════════════════════════════ */
+
+.root {
+    -fx-base: #00020a;
+    -fx-background: #00020a;
+    -fx-font-family: 'Share Tech Mono';
+
+    -color-bg-base:     #00020a;
+    -color-bg-panel:    #00040f;
+    -color-bg-card:     #00040f;
+    -color-bg-elevated: #001428;
+    -color-border:      #0a2a4a;
+    -color-border-dim:  #0a1a2a;
+    -color-holo:        #44aaff;
+    -color-holo-dim:    #2a5a8a;
+    -color-holo-dark:   #1a3a5a;
+    -color-green:       #3aff6a;
+    -color-red:         #ff4444;
+    -color-text:        #44aaff;
+    -color-text-muted:  #2a5a8a;
+
+    -color-dim:    #ff8c3a;
+    -color-red-ch: #ff3a3a;
+    -color-grn-ch: #3aff6a;
+    -color-blu-ch: #44aaff;
+    -color-wht-ch: #e8e8e8;
+    -color-ylw-ch: #ffe53a;
+    -color-str-ch: #aa3aff;
+}
+
+/* ══ TOOLBAR ══ */
+.hw-toolbar {
+    -fx-background-color: #00040f;
+    -fx-border-color: #0a2a4a;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 8 16 8 16;
+}
+
+.hw-title {
+    -fx-font-family: 'Orbitron';
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #44aaff;
+}
+
+.hw-subtitle {
+    -fx-font-family: 'Share Tech Mono';
+    -fx-font-size: 9px;
+    -fx-text-fill: #2a5a8a;
+    -fx-padding: 0 0 0 6;
+}
+
+.hw-stat-lbl {
+    -fx-font-family: 'Share Tech Mono';
+    -fx-font-size: 11px;
+    -fx-text-fill: #3aff6a;
+    -fx-padding: 0 20 0 0;
+}
+
+.hw-btn-blackout-all {
+    -fx-background-color: transparent;
+    -fx-border-color: #ff4444;
+    -fx-border-width: 1;
+    -fx-border-radius: 2;
+    -fx-background-radius: 2;
+    -fx-text-fill: #ff4444;
+    -fx-font-family: 'Orbitron';
+    -fx-font-size: 9px;
+    -fx-padding: 6 14;
+    -fx-cursor: hand;
+}
+.hw-btn-blackout-all:hover {
+    -fx-background-color: #1a0000;
+}
+
+/* ══ LEFT PANEL ══ */
+.hw-left {
+    -fx-background-color: #00020a;
+    -fx-border-color: #0a2a4a;
+    -fx-border-width: 0 1 0 0;
+}
+
+.hw-panel-title {
+    -fx-font-family: 'Orbitron';
+    -fx-font-size: 8px;
+    -fx-text-fill: #2a5a8a;
+    -fx-padding: 8 10 5 10;
+}
+
+.hw-fixture-cell {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+.hw-fixture-cell .list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 6 10;
+    -fx-border-color: transparent transparent #050f1a transparent;
+    -fx-border-width: 1;
+    -fx-cursor: hand;
+}
+.hw-fixture-cell .list-cell:hover {
+    -fx-background-color: #00081a;
+}
+.hw-fixture-cell .list-cell:selected {
+    -fx-background-color: #001428;
+    -fx-border-color: #44aaff transparent transparent transparent;
+    -fx-border-width: 0 0 0 2;
+}
+
+.hw-fix-name {
+    -fx-font-family: 'Share Tech Mono';
+    -fx-font-size: 11px;
+    -fx-text-fill: #44aaff;
+}
+
+.hw-fix-addr {
+    -fx-font-family: 'Share Tech Mono';
+    -fx-font-size: 8px;
+    -fx-text-fill: #2a5a8a;
+}
+
+/* ══ CENTER PANEL ══ */
+.hw-center {
+    -fx-background-color: #00020a;
+}
+
+.hw-fix-header {
+    -fx-background-color: #00040f;
+    -fx-border-color: #0a2a4a;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 8 14;
+}
+
+.hw-fix-label {
+    -fx-font-family: 'Orbitron';
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #44aaff;
+}
+
+.hw-fix-meta {
+    -fx-font-family: 'Share Tech Mono';
+    -fx-font-size: 9px;
+    -fx-text-fill: #2a5a8a;
+}
+
+/* ══ FADERS ══ */
+.hw-fader-col {
+    -fx-background-color: #00040f;
+    -fx-border-color: #0a1a2a;
+    -fx-border-width: 1;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+    -fx-padding: 8 4;
+    -fx-alignment: center;
+}
+
+.hw-fval {
+    -fx-font-family: 'VT323';
+    -fx-font-size: 16px;
+}
+.hw-fval-dim    { -fx-text-fill: #ff8c3a; }
+.hw-fval-red    { -fx-text-fill: #ff3a3a; }
+.hw-fval-green  { -fx-text-fill: #3aff6a; }
+.hw-fval-blue   { -fx-text-fill: #44aaff; }
+.hw-fval-white  { -fx-text-fill: #e8e8e8; }
+.hw-fval-yellow { -fx-text-fill: #ffe53a; }
+.hw-fval-strobe { -fx-text-fill: #aa3aff; }
+
+.hw-flabel {
+    -fx-font-family: 'Orbitron';
+    -fx-font-size: 7px;
+    -fx-font-weight: bold;
+}
+.hw-flabel-dim    { -fx-text-fill: #ff8c3a; }
+.hw-flabel-red    { -fx-text-fill: #ff3a3a; }
+.hw-flabel-green  { -fx-text-fill: #3aff6a; }
+.hw-flabel-blue   { -fx-text-fill: #44aaff; }
+.hw-flabel-white  { -fx-text-fill: #e8e8e8; }
+.hw-flabel-yellow { -fx-text-fill: #ffe53a; }
+.hw-flabel-strobe { -fx-text-fill: #aa3aff; }
+
+/* ══ SLIDERS POR CANAL ══ */
+.slider-dim .track    { -fx-background-color: #000814, #ff8c3a; }
+.slider-dim .thumb    { -fx-background-color: #ff8c3a; -fx-background-insets: 0; -fx-background-radius: 2; }
+
+.slider-red .track    { -fx-background-color: #000814, #ff3a3a; }
+.slider-red .thumb    { -fx-background-color: #ff3a3a; -fx-background-insets: 0; -fx-background-radius: 2; }
+
+.slider-green .track  { -fx-background-color: #000814, #3aff6a; }
+.slider-green .thumb  { -fx-background-color: #3aff6a; -fx-background-insets: 0; -fx-background-radius: 2; }
+
+.slider-blue .track   { -fx-background-color: #000814, #44aaff; }
+.slider-blue .thumb   { -fx-background-color: #44aaff; -fx-background-insets: 0; -fx-background-radius: 2; }
+
+.slider-white .track  { -fx-background-color: #000814, #e8e8e8; }
+.slider-white .thumb  { -fx-background-color: #e8e8e8; -fx-background-insets: 0; -fx-background-radius: 2; }
+
+.slider-yellow .track { -fx-background-color: #000814, #ffe53a; }
+.slider-yellow .thumb { -fx-background-color: #ffe53a; -fx-background-insets: 0; -fx-background-radius: 2; }
+
+.slider-strobe .track { -fx-background-color: #000814, #aa3aff; }
+.slider-strobe .thumb { -fx-background-color: #aa3aff; -fx-background-insets: 0; -fx-background-radius: 2; }
+
+/* ══ BUTTONS ══ */
+.hw-btn-hold {
+    -fx-background-color: #00020a;
+    -fx-text-fill: #ff8844;
+    -fx-font-family: 'Orbitron';
+    -fx-font-size: 8px;
+    -fx-border-color: #884400;
+    -fx-border-width: 1;
+    -fx-padding: 10 6;
+    -fx-cursor: hand;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+}
+.hw-btn-hold:hover    { -fx-background-color: #0d0500; -fx-border-color: #ff8844; }
+.hw-btn-hold:pressed  { -fx-background-color: #1a0a00; }
+
+.hw-btn-blackout-fix {
+    -fx-background-color: #00020a;
+    -fx-text-fill: #ff4444;
+    -fx-font-family: 'Orbitron';
+    -fx-font-size: 8px;
+    -fx-border-color: #cc000044;
+    -fx-border-width: 1;
+    -fx-padding: 10 6;
+    -fx-cursor: hand;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+}
+.hw-btn-blackout-fix:hover   { -fx-background-color: #0d0000; -fx-border-color: #ff4444; }
+.hw-btn-blackout-fix:pressed { -fx-background-color: #1a0000; }
+
+/* ══ RIGHT PANEL — SCENES ══ */
+.hw-right {
+    -fx-background-color: #00020a;
+    -fx-border-color: #0a2a4a;
+    -fx-border-width: 0 0 0 1;
+}
+
+.hw-scene-input, .hw-scenes-input {
+    -fx-background-color: #00040f;
+    -fx-border-color: #0a2a4a;
+    -fx-border-width: 1;
+    -fx-border-radius: 2;
+    -fx-background-radius: 2;
+    -fx-text-fill: #44aaff;
+    -fx-font-family: 'Share Tech Mono';
+    -fx-font-size: 11px;
+    -fx-padding: 5 7;
+    -fx-prompt-text-fill: #1a3a5a;
+}
+
+.hw-scenes-label {
+    -fx-font-family: 'Orbitron';
+    -fx-font-size: 10px;
+    -fx-text-fill: #2a5a8a;
+    -fx-padding: 8 10 5 10;
+}
+
+.hw-btn-capture {
+    -fx-background-color: #001428;
+    -fx-border-color: #44aaff;
+    -fx-border-width: 1;
+    -fx-border-radius: 2;
+    -fx-background-radius: 2;
+    -fx-text-fill: #44aaff;
+    -fx-font-family: 'Orbitron';
+    -fx-font-size: 8px;
+    -fx-padding: 7;
+    -fx-cursor: hand;
+}
+.hw-btn-capture:hover { -fx-background-color: #001e3a; }
+
+.hw-scene-list {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+.hw-scene-list .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #2a5a8a;
+    -fx-font-family: 'Share Tech Mono';
+    -fx-font-size: 10px;
+    -fx-padding: 6 10;
+    -fx-border-color: transparent transparent #050f1a transparent;
+    -fx-border-width: 1;
+}
+.hw-scene-list .list-cell:hover {
+    -fx-background-color: #00081a;
+    -fx-text-fill: #44aaff;
+}
+.hw-scene-list .list-cell:selected {
+    -fx-background-color: #001428;
+    -fx-text-fill: #44aaff;
+    -fx-border-color: #44aaff transparent transparent transparent;
+    -fx-border-width: 0 0 0 2;
+}
+
+.hw-btn-apply {
+    -fx-background-color: #001a0a;
+    -fx-border-color: #3aff6a;
+    -fx-border-width: 1;
+    -fx-border-radius: 2;
+    -fx-background-radius: 2;
+    -fx-text-fill: #3aff6a;
+    -fx-font-family: 'Orbitron';
+    -fx-font-size: 8px;
+    -fx-padding: 7;
+    -fx-cursor: hand;
+}
+.hw-btn-apply:hover { -fx-background-color: #002a14; }
+
+.hw-btn-delete {
+    -fx-background-color: transparent;
+    -fx-border-color: #cc000044;
+    -fx-border-width: 1;
+    -fx-border-radius: 2;
+    -fx-background-radius: 2;
+    -fx-text-fill: #ff444466;
+    -fx-font-family: 'Orbitron';
+    -fx-font-size: 8px;
+    -fx-padding: 7;
+    -fx-cursor: hand;
+}
+.hw-btn-delete:hover { -fx-background-color: #0d0000; -fx-text-fill: #ff4444; }
+
+.hw-scene-list .scroll-bar {
+    -fx-background-color: #00020a;
+}
+.hw-scene-list .scroll-bar .thumb {
+    -fx-background-color: #1a3a5a;
+    -fx-background-radius: 2;
+}
