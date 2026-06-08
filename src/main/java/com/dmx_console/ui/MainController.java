@@ -78,15 +78,7 @@ public class MainController {
         toolbar.setPadding(new Insets(8,16,8,16));
         toolbar.setAlignment(Pos.BASELINE_LEFT);
         toolbar.getStyleClass().add("hw-toolbar");
-        /*
-        toolbar.setStyle(
-                "-fx-background-color: " + BG_PANEL + ";" +
-                        "-fx-border-color: " + ACCENT_DIM + ";" +
-                        "-fx-border-width: 0 0 1 0;"
-        );
 
-
-*/
 
         VBox stat512 = buildStat("512", "CHANNELS");
         VBox statLive = buildStatGreen("LIVE", "STATUS");
@@ -100,31 +92,14 @@ public class MainController {
         sep3.setStyle("-fx-background-color: #0a2a4a");
 
 
-        Label appTitle = new Label("jDMX");
+        Label appTitle = new Label("j D M X");
         appTitle.getStyleClass().add("hw-title");
-        /*
-        appTitle.setStyle(
-                "-fx-font-family: 'Courier New'; " +
-                "-fx-font-size: 22px;" +
-                "-fx-font-weight: bold; " +
-                "-fx-text-fill: " + ACCENT + ";"+
-                "-fx-letter-spacing: 4px;"
 
-        );
-*/
 
 
         Label appSubtitle = new Label("CONSOLE v1.0");
         appSubtitle.getStyleClass().add("hw-subtitle");
-        /*
-        appSubtitle.setStyle(
-                "-fx-font-family: 'Courier New';" +
-                "-fx-font-size: 10px;" +
-                        "-fx-text-fill: " + TEXT_MUTED + ";" +
-                        "-fx-padding: 0 0 0 8;"
 
-                );
-*/
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
@@ -132,32 +107,12 @@ public class MainController {
         // INDICADOR DE DMX UNIVERSE
         Label universeLabel = new Label("[] UNIVERSE 1");
         universeLabel.getStyleClass().add("hw-stat-lbl");
-        /*
-        universeLabel.setStyle("""
-                -fx-font-family: 'Courier New';
-                -fx-font-size: 11px;
-                -fx-text-fill: #3aff6a; 
-                -fx-padding: 0 20 0 0;
-              
-                """); */
+
 
         /// Boton de blackout general
         Button blackOutAll = new Button("xxx BLACKOUT ALL xxx");
         blackOutAll.getStyleClass().add("hw-btn-blackout-all");
-        /*
-        blackOutAll.setStyle("""
-                -fx-background-color: #8b0000;
-                -fx-text-fill: white;
-                -fx-font-family: 'Courier New';
-                -fx-font-size: 11px;
-                -fx-font-weight: bold;
-                -fx-padding: 6 16;
-                -fx-background-radius: 2;
-                -fx-cursor: hand;
 
-                
-                """);
-*/
 
 
         blackOutAll.setOnAction(e -> {
@@ -176,44 +131,23 @@ public class MainController {
         );
 
 
-
-
-
-
         // Modelar panel izquierdo - Lista de Fixtures
 
          VBox leftPanel = new VBox(0);
          leftPanel.setMinWidth(170);
          leftPanel.setMaxWidth(200);
          leftPanel.getStyleClass().add("hw-left");
-         /*
-         leftPanel.setStyle("-fx-background-color: " + BG_PANEL + ";");
-*/
+
 
          Label fixturesTitle = new Label("FIXTURES");
          fixturesTitle.getStyleClass().add("hw-panel-title");
-         /*
-         fixturesTitle.setStyle(
-                 "-fx-font-family: 'Courier New';" +
-                         "-fx-font-size: 10px;" +
-                         "-fx-text-fill: " + TEXT_MUTED + ";" +
-                         "-fx-padding: 10 12 6 12;" +
-                         "-fx-font-weight: bold;"
 
-
-         ); */
 
 
 
         fixtureList.getItems().addAll(rig);
         fixtureList.getStyleClass().add("hw-fixture-cell");
-        /*
-        fixtureList.setStyle("-fx-background-color: transparent;" +
-                "-fx-border-color: transparent;"
-        );
 
-
-         */
 
 
         VBox.setVgrow(fixtureList, Priority.ALWAYS);
@@ -259,12 +193,7 @@ public class MainController {
                 // direccion en la que se encuentra el fixture
                 Label addr = new Label("@" + item.getAddress());
                 addr.getStyleClass().add("hw-fix-addr");
-                /*
-                addr.setStyle(
-                        "-fx-font-fsmily: 'Courier New';" +
-                                "-fx-font-size: 10px;" +
-                                "-fx-text-fill: " + TEXT_MUTED + ";"
-                ); */
+
 
                 Region sp = new Region();
                 HBox.setHgrow(sp, Priority.ALWAYS);
@@ -288,8 +217,7 @@ public class MainController {
 
         VBox centerPanel = new VBox(0);
         centerPanel.getStyleClass().add("hw-center");
-        /*
-        centerPanel.setStyle("-fx-background-color: " + BG_BASE + ";"); */
+
         VBox.setVgrow(centerPanel, Priority.ALWAYS);
 
         // Header fixture seleccionado}
@@ -297,31 +225,15 @@ public class MainController {
         fixtureHeader.setPadding(new Insets(12,16,12,16));
         fixtureHeader.setAlignment(Pos.CENTER_LEFT);
         fixtureHeader.getStyleClass().add("hw-fix-header");
-        /*
-        fixtureHeader.setStyle(
-                "-fx-background-color: " +BG_CARD + ";"+
-                        "-fx-border-color: " +BG_ELEVATED +";" +
-                        "-fx-border-width: 0 0 1 0;"
-        );
-*/
+
 
         Label labelFixture = new Label("-SELECT A FIXTURE-");
         labelFixture.getStyleClass().add("hw-fix-label");
-        /*
-        labelFixture.setStyle(
-                "-fx-font-family: 'Courier New';" +
-                        "-fx-font-size: 14px;"+
-                        "-fx-font-weight: bold;" +
-                        "-fx-text-fill: " +ACCENT + ";"
-        ); */
+
 
         Label labelAddr = new Label("");
         labelAddr.getStyleClass().add("hw-fix-meta");
-        /*
-        labelAddr.setStyle("-fx-font-family: 'Courier New'; " +
-                "-fx-font-size: 11px;" +
-                "-fx-text-fill: " + TEXT_MUTED + ";"
-        ); */
+
 
         ColorPicker colorPicker = new ColorPicker(Color.BLACK);
         colorPicker.setStyle("-fx-color-label-visible: false;");
@@ -352,8 +264,7 @@ public class MainController {
         sliderStrobe = createFaderSlider();
 
         HBox fadersRow = new HBox(6);
-        //fadersRow.setPadding(new Insets(20, 16, 20, 16));
-        fadersRow.setPadding(new Insets(15,45,15,45));
+        fadersRow.setPadding(new Insets(20, 16, 20, 16));
         fadersRow.setAlignment(Pos.BOTTOM_CENTER);
         fadersRow.setStyle("-fx-background-color: "+BG_BASE + ";");
         VBox.setVgrow(fadersRow, Priority.ALWAYS);
@@ -379,17 +290,7 @@ public class MainController {
         Button btnBlackout = new Button("BLACKOUT FIXTURE");
         btnBlackout.setMaxWidth(Double.MAX_VALUE);
         btnBlackout.getStyleClass().add("hw-btn-blackout-fix");
-        /*
-        btnBlackout.setStyle("-fx-background-color: #191970;" +
-                "-fx-text-fill: #ff6666;" +
-                "-fx-font-family: 'Courier New';" +
-                "-fx-font-size: 12px;" +
-                "-fx-font-weight: bold;" +
-                "-fx-padding: 10;" +
-                "-fx-background-radius: 4;" +
-                "-fx-cursor: hand;"
 
-        ); */
 
 
         btnBlackout.setOnMouseEntered(e -> {
@@ -403,20 +304,7 @@ public class MainController {
         Button btnBump = new Button("HOLD BLACKOUT");
         btnBump.setMaxWidth(Double.MAX_VALUE);
         btnBump.getStyleClass().add("hw-btn-hold");
-        /*
-        btnBump.setStyle(
-                "-fx-background-color: #191970;" +
-                        "-fx-text-fill: #ff4444;" +
-                        "-fx-font-family: 'Courier New';" +
-                        "-fx-font-size: 12px;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-padding: 10;" +
-                        "-fx-background-radius: 4;" +
-                        "-fx-cursor: hand;"
-        );
 
-
-         */
 
         btnBump.setOnMouseEntered(e ->{
             btnBump.getStyleClass().add("hw-btn-hold:hover");
@@ -560,6 +448,7 @@ public class MainController {
             if(selectedFixture != null ){
                 service.setColor(selectedFixture, r ,g, b);
                 updatePreview();
+                updateFixtureDot(selectedFixture);
             }
 
         });
@@ -579,8 +468,6 @@ public class MainController {
 
             })
         );
-
-
 
 
         // LAYOUT FINAL :
@@ -685,13 +572,7 @@ public class MainController {
      private VBox buildFaderColumn(String name, Slider slider, String colorClass) {
          Label valueLabel = new Label("000");
          valueLabel.getStyleClass().addAll("hw-fval", "hw-fval-" + colorClass);
-         /*
-         valueLabel.setStyle(
-                 "-fx-font-family: 'Courier New';" +
-                         "-fx-font-size: 11px;" +
-                         "-fx-text-fill: " + color + ";" +
-                         "-fx-font-weight: bold;"
-         ); */
+
 
          // ACTUALIZA EL LABEL AL DESLIZAR EL SLIDER
          slider.valueProperty().addListener((o, ov, nv) ->
@@ -703,35 +584,19 @@ public class MainController {
          slider.valueProperty().addListener((o, ov, nv) ->
                  valueLabel.setText(String.format("%03d", nv.intValue()))
          );
-         /*
-         slider.setStyle(
-                 "-fx-control-inner-background: #1a1a2a;" +
-                         "-fx-accent: " + color + ";"
-         );
 
-          */
+
+
 
          Label nameLabel = new Label(name);
          nameLabel.getStyleClass().addAll("hw-flabel", "hw-flabel-" +
                  colorClass);
-         /*
-         nameLabel.setStyle("-fx-font-family: 'Courier New';" +
-                 "-fx-font-size: 10px;" +
-                 "-fx-text-fill: " + color + ";" +
-                 "-fx-font-weight: bold;"
-         );
-*/
+
 
          VBox col = new VBox(6);
          col.setAlignment(Pos.BOTTOM_CENTER);
          col.getStyleClass().add("hw-fader-col");
-         /*
-         col.setStyle(
-                 "-fx-background-color: " + BG_CARD + ";" +
-                         "-fx-background-radius: 4;" +
-                         "-fx-padding: 10 12;"
-         );
-         */
+
 
          col.setMinWidth(60);
          HBox.setHgrow(col, Priority.ALWAYS);

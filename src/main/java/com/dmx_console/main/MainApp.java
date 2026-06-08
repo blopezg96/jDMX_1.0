@@ -47,7 +47,7 @@ public class MainApp extends Application {
 
         BorderPane root = controller.getView();
         Scene scene = new Scene(root, 1200, 700);
-        scene.getStylesheets().add(getClass().getResource("/stylesBeta.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
         scene.setCursor(Cursor.CROSSHAIR);
 
         //root.prefWidthProperty().bind(scene.widthProperty());
