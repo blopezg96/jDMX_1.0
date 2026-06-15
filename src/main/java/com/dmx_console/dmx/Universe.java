@@ -32,6 +32,16 @@ public class Universe {
         }
     }
 
+    public byte[] getSnapShot(){
+        byte[] snapShot = new byte[512];
+        for(int i=0; i<512; i++){
+            snapShot[i] = (byte) channels[i];
+        }
+
+        return snapShot;
+
+    }
+
 
 
 }

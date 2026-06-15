@@ -38,10 +38,10 @@
 /* Título con efecto glow */
 .hw-title {
     -fx-font-family: 'Orbitron';
-    -fx-font-size: 26px;
+    -fx-font-size: 25px;
     -fx-font-weight: bold;
     -fx-text-fill: #44aaff;
-    -fx-effect: dropshadow(gaussian, #44aaff, 12, 0.4, 0, 0);
+    -fx-effect: dropshadow(gaussian, #44aaff, 15,0.5, 1, 1);
 }
 
 .hw-subtitle {
@@ -316,7 +316,7 @@
     -fx-background-color: transparent;
     -fx-text-fill: #2a5a8a;
     -fx-font-family: 'VT323';
-    -fx-font-size: 10px;
+    -fx-font-size: 15px;
     -fx-padding: 7 10;
     -fx-border-color: transparent transparent #05101a transparent;
     -fx-border-width: 1;
@@ -343,7 +343,7 @@
     -fx-background-radius: 2;
     -fx-text-fill: #3aff6a;
     -fx-font-family: 'Orbitron';
-    -fx-font-size: 8px;
+    -fx-font-size: 15px;
     -fx-padding: 8;
     -fx-cursor: hand;
     -fx-effect: dropshadow(gaussian, #3aff6a, 6, 0.3, 0, 0);
@@ -362,7 +362,7 @@
     -fx-background-radius: 2;
     -fx-text-fill: #ff444466;
     -fx-font-family: 'Orbitron';
-    -fx-font-size: 8px;
+    -fx-font-size: 15px;
     -fx-padding: 7;
     -fx-cursor: hand;
 }
@@ -370,7 +370,7 @@
     -fx-background-color: #ff4444;
     -fx-text-fill: #000000;
     -fx-border-color: #ff4444;
-    -fx-effect: dropshadow(gaussian, #ff4444, 10, 0.4, 0, 0);
+    -fx-effect: dropshadow(gaussian, #ff4444, 12, 0.4, 0, 0);
 }
 
 .hw-scene-list .scroll-bar {

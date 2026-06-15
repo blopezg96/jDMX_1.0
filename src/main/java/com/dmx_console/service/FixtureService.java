@@ -37,7 +37,7 @@ public class FixtureService {
         applyChannel(fixture, ChannelFunction.RED,r);
         applyChannel(fixture, ChannelFunction.GREEN, g);
         applyChannel(fixture, ChannelFunction.BLUE, b);
-        send(); // Un solo envio al final.
+       // send(); // Un solo envio al final.
 
 
 
@@ -49,15 +49,16 @@ public class FixtureService {
         for(FixtureChannel ch : fixture.getProfile().getChannels()){
             universe.setChannel(base + ch.getOffset() - 1, 0);
         }
-        send();
+       // send();
 
     }
 
     public void blackoutAll(){
         universe.blackout();
-        send();
+       // send();
     }
 
+    /*
     private void send(){
         byte[] data = new byte[512];
         for(int i = 0; i<512; i++){
@@ -65,7 +66,7 @@ public class FixtureService {
         }
         output.sendUniverse(data);
     }
-
+*/
     public void applyChannel(Fixture fixture, ChannelFunction function,
                              int value){
         fixture.getProfile().getChannels().stream()
@@ -80,7 +81,7 @@ public class FixtureService {
     public void setChannel(Fixture fixture, ChannelFunction function,
                            int value){
         applyChannel(fixture, function, value);
-        send();
+        // send();
     }
 
     public int getChannelValue(Fixture fixture, ChannelFunction function){

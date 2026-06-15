@@ -4,15 +4,21 @@ import com.dmx_console.model.ChannelFunction;
 import com.dmx_console.model.Fixture;
 import com.dmx_console.service.SceneService;
 import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.effect.BlurType;
 import javafx.scene.layout.*;
 import com.dmx_console.service.FixtureService;
 import javafx.scene.paint.Color;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 import java.util.List;
 
@@ -53,6 +59,7 @@ public class MainController {
     private Slider sliderStrobe;
     private Slider sliderDimmer;
     private HBox faderBank;
+    private Label appTitle;
     private int[] savedValues = new int[7];
     private final ListView<Fixture> fixtureList = new ListView<>();
 
@@ -92,7 +99,7 @@ public class MainController {
         sep3.setStyle("-fx-background-color: #0a2a4a");
 
 
-        Label appTitle = new Label("j D M X");
+        appTitle = new Label("jDMX  Lightning System");
         appTitle.getStyleClass().add("hw-title");
 
 
@@ -110,7 +117,7 @@ public class MainController {
 
 
         /// Boton de blackout general
-        Button blackOutAll = new Button("xxx BLACKOUT ALL xxx");
+        Button blackOutAll = new Button("xxx BLACKOUT  ALL xxx");
         blackOutAll.getStyleClass().add("hw-btn-blackout-all");
 
 
@@ -227,7 +234,7 @@ public class MainController {
         fixtureHeader.getStyleClass().add("hw-fix-header");
 
 
-        Label labelFixture = new Label("-SELECT A FIXTURE-");
+        Label labelFixture = new Label("-NO FIXTURE SELECTED-");
         labelFixture.getStyleClass().add("hw-fix-label");
 
 
@@ -263,10 +270,12 @@ public class MainController {
         sliderY = createFaderSlider();
         sliderStrobe = createFaderSlider();
 
-        HBox fadersRow = new HBox(6);
+        HBox fadersRow = new HBox(8);
         fadersRow.setPadding(new Insets(20, 16, 20, 16));
         fadersRow.setAlignment(Pos.BOTTOM_CENTER);
-        fadersRow.setStyle("-fx-background-color: "+BG_BASE + ";");
+        fadersRow.setStyle("-fx-background-color: #00020a;");
+        fadersRow.setMinHeight(360);
+        fadersRow.setMaxHeight(400);
         VBox.setVgrow(fadersRow, Priority.ALWAYS);
 
         fadersRow.getChildren().addAll(
@@ -355,12 +364,18 @@ public class MainController {
             updateStrobe();
         });
 
+        HBox btnRow = new HBox(0, btnBump, btnBlackout);
+        btnBump.setMaxWidth(Double.MAX_VALUE);
+        btnBlackout.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(btnBump, Priority.ALWAYS);
+        HBox.setHgrow(btnBlackout, Priority.ALWAYS);
+        btnRow.setMaxWidth(Double.MAX_VALUE);
+
         centerPanel.getChildren().addAll(
                 fixtureHeader,
                 colorPreview,
-                btnBlackout,
-                btnBump,
-                fadersRow
+                fadersRow,
+                btnRow
 
         );
 
@@ -570,37 +585,114 @@ public class MainController {
      }
 
      private VBox buildFaderColumn(String name, Slider slider, String colorClass) {
+
+        String hexColor = switch(colorClass){
+            case "dim"    -> "#ff8c3a";
+            case "red"    -> "#ff3a3a";
+            case "green"  -> "#3aff6a";
+            case "blue"   -> "#44aaff";
+            case "white"  -> "#e8e8e8";
+            case "yellow" -> "#ffe53a";
+            case "strobe" -> "#aa3aff";
+            default       -> "#ffffff";
+        };
+
          Label valueLabel = new Label("000");
          valueLabel.getStyleClass().addAll("hw-fval", "hw-fval-" + colorClass);
 
+         double trackWidth = 28;
+         double trackHeight = 280;
+
+         javafx.scene.shape.Rectangle trackBg =
+                 new javafx.scene.shape.Rectangle(trackWidth, trackHeight);
+         trackBg.setFill(Color.web("#000814"));
+         trackBg.setArcWidth(4);
+         trackBg.setArcHeight(4);
+         trackBg.setStroke(Color.web("#0a1a2a"));
+         trackBg.setStrokeWidth(1);
+
+         Rectangle trackFill = new Rectangle(trackWidth,0);
+         trackFill.setFill(Color.web(hexColor + "55"));
+         trackFill.setArcWidth(4);
+         trackFill.setArcHeight(4);
+
+         double thumbH = 16;
+         Rectangle thumb = new Rectangle(trackWidth + 8, thumbH);
+         thumb.setFill(Color.web("#1a2a3a"));
+         thumb.setStroke(Color.web(hexColor));
+         thumb.setStrokeWidth(1.5);
+         thumb.setArcWidth(3);
+         thumb.setArcHeight(3);
+         thumb.setEffect(new DropShadow(8, Color.web(hexColor)));
+
+         Rectangle thumbLine = new Rectangle(trackWidth - 4,2);
+         thumbLine.setFill(Color.web(hexColor));
+
+         Pane trackPane = new Pane();
+         trackPane.setPrefSize(trackWidth + 8, trackHeight);
+         trackPane.setMaxSize(trackWidth + 8, trackHeight);
+         trackPane.getChildren().addAll(trackBg, trackFill, thumb, thumbLine);
+
+         trackBg.setX(4);
+         trackBg.setY(0);
+         trackFill.setX(4);
+         trackFill.setY(trackHeight);
+
 
          // ACTUALIZA EL LABEL AL DESLIZAR EL SLIDER
-         slider.valueProperty().addListener((o, ov, nv) ->
-                 valueLabel.setText(String.format("%03d", nv.intValue()))
-         );
+         slider.valueProperty().addListener((o, ov, nv) -> {
+                     double pct = nv.doubleValue() / 255.0;
+                     double fillH = pct * trackHeight;
+                     double fillY = trackHeight - fillH;
 
-         // TRACK DE COLOR DEL FADER
-         slider.getStyleClass().add("slider-" + colorClass);
-         slider.valueProperty().addListener((o, ov, nv) ->
-                 valueLabel.setText(String.format("%03d", nv.intValue()))
-         );
+                     trackFill.setHeight(fillH);
+                     trackFill.setY(fillY);
 
+                     double thumbY = fillY - thumbH / 2;
+                     thumbY = Math.max(0, Math.min(trackHeight - thumbH, thumbY));
+                     thumb.setX(0);
+                     thumb.setY(thumbY);
+                     thumbLine.setX(4);
+                     thumbLine.setY(thumbY + thumbH / 2-1);
+                     valueLabel.setText(String.format("%03d", nv.intValue()));
+         });
 
+         thumb.setX(0);
+         thumb.setY(trackHeight - thumbH);
+         thumbLine.setX(4);
+         thumbLine.setY(trackHeight - thumbH / 2-1);
 
-
+         trackPane.setOnMousePressed(e -> {
+             double pct = 1.0 - (e.getY() / trackHeight);
+             slider.setValue(Math.max(0, Math.min(255, pct * 255)));
+         });
+         trackPane.setOnMouseDragged(e -> {
+             double pct = 1.0 - (e.getY() / trackHeight);
+             slider.setValue(Math.max(0, Math.min(255, pct * 255)));
+         });
+         trackPane.setStyle("-fx-cursor: hand;");
          Label nameLabel = new Label(name);
          nameLabel.getStyleClass().addAll("hw-flabel", "hw-flabel-" +
                  colorClass);
 
+         slider.setVisible(false);
+         slider.setPrefSize(0,0);
+         slider.setMaxSize(0,0);
+
+         /*/ TRACK DE COLOR DEL FADER
+         slider.getStyleClass().add("slider-" + colorClass);
+         slider.valueProperty().addListener((o, ov, nv) ->
+                 valueLabel.setText(String.format("%03d", nv.intValue()))
+         );
+         */
 
          VBox col = new VBox(6);
          col.setAlignment(Pos.BOTTOM_CENTER);
          col.getStyleClass().add("hw-fader-col");
-
-
-         col.setMinWidth(60);
+         col.setMinWidth(52);
+         col.setPrefWidth(60);
          HBox.setHgrow(col, Priority.ALWAYS);
-         col.getChildren().addAll(valueLabel, slider, nameLabel);
+         col.getChildren().addAll(valueLabel,trackPane, nameLabel, slider);
          return col;
      }
 
@@ -656,6 +748,7 @@ public class MainController {
      }
 
      private VBox buildStatGreen(String value, String label){
+
         Label val = new Label(value);
         val.getStyleClass().add("hw-stat-val-green");
         Label lbl = new Label(label);
@@ -663,6 +756,8 @@ public class MainController {
         VBox box = new VBox(2, val, lbl);
         box.setAlignment(Pos.CENTER);
         box.setPadding(new Insets(0, 12, 0, 12));
+
+/// //
 
         return box;
      }
@@ -688,6 +783,12 @@ public class MainController {
         fixtureList.refresh();
 
     }
+
+    public Label getTitleLabel (){
+        return appTitle;
+    }
+
+
 
 
 }

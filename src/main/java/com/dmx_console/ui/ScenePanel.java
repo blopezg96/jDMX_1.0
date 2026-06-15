@@ -40,7 +40,7 @@ public class ScenePanel {
                 """);
 */
 
-        Label title = new Label("Escenas");
+        Label title = new Label("ESCENES");
         title.getStyleClass().add("hw-scenes-label");
         /*
         title.setStyle("-fx-text-fill: white; -fx-font-size: 14px;"+
@@ -49,14 +49,14 @@ public class ScenePanel {
 
         // Nombrar una nueva escena
         TextField nameField = new TextField();
-        nameField.setPromptText("Nombre de escena: ");
+        nameField.setPromptText("SCENE NAME: ");
         nameField.getStyleClass().add("hw-scenes-input");
 
         /* nameField.setStyle("-fx-background-color: #3a3a3a;" +
                 "-fx-text-fill: white;"); */
 
         // Boton para capturar una escena actual
-        Button btnCapture = new Button("Capturar escena");
+        Button btnCapture = new Button("RECORD ESCENE");
         btnCapture.setMaxWidth(Double.MAX_VALUE);
         btnCapture.getStyleClass().add("hw-btn-capture");
         /*
@@ -65,7 +65,7 @@ public class ScenePanel {
                 "bold;"); */
 
         // Boton de apply una escena seleccionada.
-        Button btnApply = new Button("Aplicar");
+        Button btnApply = new Button("APPLY ESCENE");
         btnApply.setMaxWidth(Double.MAX_VALUE);
         btnApply.getStyleClass().add("hw-btn-apply");
         /*
@@ -75,7 +75,7 @@ public class ScenePanel {
        */
 
         // Boton para eliminar una escena
-        Button btnDelete = new Button("Eliminar escena");
+        Button btnDelete = new Button("DELETE ESCENE");
         btnDelete.setMaxWidth(Double.MAX_VALUE);
         btnDelete.getStyleClass().add("hw-btn-delete");
         /*
@@ -137,7 +137,7 @@ public class ScenePanel {
                 nameField,
                 btnCapture,
                 new Separator(),
-                new Label("Escenas guardadas: "),
+                new Label("Stored Scenes: "),
                 sceneList,
                 btnApply,
                 btnDelete
