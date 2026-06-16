@@ -260,7 +260,8 @@
     -fx-border-color: #ff4444;
     -fx-effect: dropshadow(gaussian, #ff4444, 8, 0.3, 0, 0);
 }
-.hw-btn-blackout-fix:pressed { -fx-background-color: #1a0000; }
+.hw-btn-blackout-fix:pressed
+{ -fx-background-color: #1a0000; }
 
 /* ══ RIGHT PANEL — SCENES ══ */
 .hw-right {
