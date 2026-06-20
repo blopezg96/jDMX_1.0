@@ -1,5 +1,6 @@
 package com.dmx_console.output;
-
+/* Muestra en consola el comportamiento simulado de el software con el hardware
+* y el envio de informacion que se esta llevando a cabo  */
 import java.lang.reflect.Array;
 import java.util.Arrays;
 

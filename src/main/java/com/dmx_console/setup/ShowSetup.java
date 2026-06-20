@@ -7,6 +7,11 @@ import com.dmx_console.factory.FixtureProfiles;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/* El setup permite añadir o eliminar fixtures a nuestra sesion.
+* NO ES POSIBLE ACTUALMENTE MODIFICAR ESTO DESDE LA UI.
+* PARA AÑADIR O ELIMINAR FIXTURES DEBE MODIFICARSE EL CICLO FOR Y ELEGIR PREVIAMENTE
+* EL PROFILE ASIGNANDOLO EN parProfile.   */
 public class ShowSetup {
 
     public static List<Fixture> buildRig(){

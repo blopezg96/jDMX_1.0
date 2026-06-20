@@ -1,5 +1,6 @@
 package com.dmx_console.model;
-
+/* Una escena representa la configuracion e integracion de uno o mas fixtures (equipos)
+* para llevar a cabo una rutina  */
 import java.util.HashMap;
 import java.util.Map;
 

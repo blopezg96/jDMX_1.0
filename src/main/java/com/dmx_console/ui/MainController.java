@@ -8,6 +8,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -65,6 +66,9 @@ public class MainController {
     private final ListView<Fixture> fixtureList = new ListView<>();
     private final ChasePanel chasePanel;
     private final ChaseEngine chaseEngine;
+    private ListView<Fixture> fixtureListRef;
+    private final FixturePreviewGrid previewGrid;
+
 
 
     private Fixture selectedFixture;
@@ -78,7 +82,9 @@ public class MainController {
         this.sceneService = new SceneService(service);
         this.scenePanel = new ScenePanel(sceneService, rig, () -> updateSliders(selectedFixture));
         this.chaseEngine = new ChaseEngine(sceneService, rig);
+        chaseEngine.setOnTick(this::refreshFixtureColors);
         this.chasePanel = new ChasePanel(chaseEngine, sceneService);
+        this.previewGrid = new FixturePreviewGrid(rig, service);
         buildUI();
     }
 
@@ -152,6 +158,7 @@ public class MainController {
 
          Label fixturesTitle = new Label("FIXTURES");
          fixturesTitle.getStyleClass().add("hw-panel-title");
+         this.fixtureListRef = fixtureList;
 
 
 
@@ -238,6 +245,8 @@ public class MainController {
         fixtureHeader.getStyleClass().add("hw-fix-header");
 
 
+
+
         Label labelFixture = new Label("-NO FIXTURE SELECTED-");
         labelFixture.getStyleClass().add("hw-fix-label");
 
@@ -255,6 +264,8 @@ public class MainController {
         fixtureHeader.getChildren().addAll(
                 labelFixture, labelAddr, headerSpacer, colorPicker
         );
+
+
 
         // //////////////////////////////// Preview del color ////////////////////////////////////////////////////////
         colorPreview = new javafx.scene.shape.Rectangle(10, 60);
@@ -377,6 +388,7 @@ public class MainController {
 
         centerPanel.getChildren().addAll(
                 fixtureHeader,
+                previewGrid.getView(),
                 colorPreview,
                 fadersRow,
                 btnRow
@@ -811,6 +823,16 @@ public class MainController {
 
     public ChaseEngine getChaseEngine(){
         return chaseEngine;
+    }
+
+    public void refreshFixtureColors(){
+        Platform.runLater(()-> {
+            if(fixtureListRef != null) fixtureListRef.refresh();
+            if(selectedFixture != null) {
+                updatePreview();
+                previewGrid.refresh();
+            }
+        });
     }
 
 

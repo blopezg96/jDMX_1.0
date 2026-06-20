@@ -1,5 +1,7 @@
 package com.dmx_console.service;
 
+/* Service de Fixture */
+
 import com.dmx_console.model.ChannelFunction;
 import com.dmx_console.model.Fixture;
 import com.dmx_console.model.FixtureChannel;

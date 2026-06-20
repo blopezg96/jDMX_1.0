@@ -30,6 +30,7 @@ public class ChaseEngine {
     private int bounceDirection = 1;
     private final AtomicBoolean running = new AtomicBoolean(false);
     private final Random random = new Random();
+    private Runnable onTick;
 
     // Callback que notifica a la UI que chase esta activo
     private Consumer<Integer> onStepChanged;
@@ -37,6 +38,10 @@ public class ChaseEngine {
     public ChaseEngine(SceneService sceneService, List<Fixture> rig){
         this.sceneService = sceneService;
         this.rig = rig;
+    }
+
+    public void setOnTick(Runnable callback){
+        this.onTick = callback;
     }
 
     public void setOnStepChanged(Consumer<Integer> callback){
@@ -155,6 +160,11 @@ public class ChaseEngine {
             final int step = currentStep;
             Platform.runLater(() ->
                     onStepChanged.accept(step));
+
+        }
+
+        if(onTick != null){
+            Platform.runLater(onTick);
         }
 
         // Siguiente paso

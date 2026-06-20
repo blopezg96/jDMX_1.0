@@ -141,7 +141,7 @@ public class SplashScreen {
                 "LOADING FIXTURE PROFILES...",
                 "CALIBRATING UNIVERSE 1...",
                 "CONNECTING OUTPUT INTERFACE...",
-                "IMPERIAL SYSTEM READY. "
+
         };
 
             Timeline titlePulse = new Timeline(

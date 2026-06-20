@@ -1,5 +1,5 @@
 package com.dmx_console.model;
-/* Un fixture es un equipo fisico puede ser un parled, robotica, etc. */
+/* Un fixture es un equipo fisico puede ser un parled, cabeza robotica, etc. */
 
 public class Fixture {
     private String name;
