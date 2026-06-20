@@ -2,6 +2,7 @@ package com.dmx_console.ui;
 
 import com.dmx_console.model.ChannelFunction;
 import com.dmx_console.model.Fixture;
+import com.dmx_console.service.ChaseEngine;
 import com.dmx_console.service.SceneService;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -62,7 +63,8 @@ public class MainController {
     private Label appTitle;
     private int[] savedValues = new int[7];
     private final ListView<Fixture> fixtureList = new ListView<>();
-
+    private final ChasePanel chasePanel;
+    private final ChaseEngine chaseEngine;
 
 
     private Fixture selectedFixture;
@@ -75,6 +77,8 @@ public class MainController {
         this.view = new BorderPane();
         this.sceneService = new SceneService(service);
         this.scenePanel = new ScenePanel(sceneService, rig, () -> updateSliders(selectedFixture));
+        this.chaseEngine = new ChaseEngine(sceneService, rig);
+        this.chasePanel = new ChasePanel(chaseEngine, sceneService);
         buildUI();
     }
 
@@ -490,8 +494,25 @@ public class MainController {
         view.setTop(toolbar);
         view.setLeft(leftPanel);
         view.setCenter(centerPanel);
-        view.setRight(scenePanel.getView());
-        view.setStyle("-fx-background-color: " + BG_BASE + ";");
+        //view.setRight(scenePanel.getView());
+        TabPane rightTabs = new TabPane();
+        rightTabs.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+        rightTabs.setStyle(
+                "-fx-background-color: #00020a;" +
+                        "-fx-tab-min-width: 80px;"
+        );
+        //view.setStyle("-fx-background-color: " + BG_BASE + ";");
+
+        Tab sceneTab = new Tab("SCENES", scenePanel.getView());
+        Tab chaseTab = new Tab("CHASES", chasePanel.getView());
+
+        sceneTab.setStyle("-fx-text-fill: #44aaff;");
+        chaseTab.setStyle("-fx-text-fill: #44aaff;");
+
+        rightTabs.getTabs().addAll(sceneTab, chaseTab);
+        rightTabs.setMinWidth(220);
+        rightTabs.setMaxHeight(Double.MAX_VALUE);
+        view.setRight(rightTabs);
 
         BorderPane.setMargin(leftPanel, new Insets(0));
         BorderPane.setMargin(centerPanel, new Insets(0));
@@ -786,6 +807,10 @@ public class MainController {
 
     public Label getTitleLabel (){
         return appTitle;
+    }
+
+    public ChaseEngine getChaseEngine(){
+        return chaseEngine;
     }
 
 

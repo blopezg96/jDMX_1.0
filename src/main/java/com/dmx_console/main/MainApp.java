@@ -3,6 +3,7 @@ package com.dmx_console.main;
 import com.dmx_console.dmx.DmxLoop;
 import com.dmx_console.model.Fixture;
 import com.dmx_console.dmx.Universe;
+import com.dmx_console.service.ChaseEngine;
 import com.dmx_console.ui.SplashScreen;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -38,6 +39,8 @@ import java.util.List;
 import static javax.print.attribute.standard.MediaSizeName.C;
 
 public class MainApp extends Application {
+
+    public ChaseEngine chaseEngine;
 
     @Override
     public void start(Stage stage) {
@@ -139,6 +142,7 @@ public class MainApp extends Application {
 
         List<Fixture> rig = ShowSetup.buildRig();
 
+
         DmxLoop dmxLoop = new DmxLoop(universe, output);
         dmxLoop.start();
 
@@ -206,6 +210,8 @@ public class MainApp extends Application {
         stage.setOnCloseRequest(e -> {
             System.out.println("[APP] Cerrando - deteniendo DMX loop...");
             dmxLoop.stop();
+            chaseEngine.stop();
+
         });
         stage.show();
         Timeline fadeIn = new Timeline(
@@ -215,6 +221,15 @@ public class MainApp extends Application {
                         new KeyValue(root.opacityProperty(),1))
         );
         fadeIn.play();
+
+        stage.setOnCloseRequest(e -> {
+            System.out.println("[APP] Cerrando aplicación...");
+            dmxLoop.stop();
+            controller.getChaseEngine().stop();
+
+            javafx.application.Platform.exit();
+            System.exit(0); // ← fuerza el cierre de la JVM completa
+        });
 
     }
 
