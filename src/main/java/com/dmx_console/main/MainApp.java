@@ -210,7 +210,10 @@ public class MainApp extends Application {
         stage.setOnCloseRequest(e -> {
             System.out.println("[APP] Cerrando - deteniendo DMX loop...");
             dmxLoop.stop();
-            chaseEngine.stop();
+            controller.getChaseEngine().stop();
+            controller.stopUiRefreshLoop();
+            Platform.exit();
+            System.exit(0);
 
         });
         stage.show();

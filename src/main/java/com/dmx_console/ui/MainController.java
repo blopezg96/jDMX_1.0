@@ -4,10 +4,7 @@ import com.dmx_console.model.ChannelFunction;
 import com.dmx_console.model.Fixture;
 import com.dmx_console.service.ChaseEngine;
 import com.dmx_console.service.SceneService;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
@@ -68,6 +65,7 @@ public class MainController {
     private final ChaseEngine chaseEngine;
     private ListView<Fixture> fixtureListRef;
     private final FixturePreviewGrid previewGrid;
+    private AnimationTimer uiRefreshTimer;
 
 
 
@@ -433,7 +431,7 @@ public class MainController {
 
             updatePreview();
             updateStrobe();
-            fixtureList.refresh();
+
 
         };
 
@@ -535,6 +533,8 @@ public class MainController {
         centerPanel.setMaxHeight(Double.MAX_VALUE);
         scenePanel.getView().setMaxHeight(Double.MAX_VALUE);
         scenePanel.getView().getStyleClass().add("hw-right");
+
+        starUiRefreshLoop();
 
         }
 
@@ -825,6 +825,7 @@ public class MainController {
         return chaseEngine;
     }
 
+    /*
     public void refreshFixtureColors(){
         Platform.runLater(()-> {
             if(fixtureListRef != null) fixtureListRef.refresh();
@@ -833,6 +834,36 @@ public class MainController {
                 previewGrid.refresh();
             }
         });
+    }  */
+
+    public void refreshFixtureColors(){
+
+        if(previewGrid != null) previewGrid.refresh();
+
+        if(fixtureListRef != null) fixtureListRef.refresh();
+
+        if(selectedFixture != null) updatePreview();
+
+    }
+
+    public void starUiRefreshLoop(){
+        uiRefreshTimer = new AnimationTimer() {
+            private long lastUpdate = 0;
+            @Override
+            public void handle(long now) {
+                if(now - lastUpdate >=33_000_000L){
+                    lastUpdate = now;
+                    refreshFixtureColors();
+                }
+            }
+        };
+        uiRefreshTimer.start();
+    }
+
+    public void stopUiRefreshLoop(){
+        if(uiRefreshTimer != null){
+            uiRefreshTimer.stop();
+        }
     }
 
 
