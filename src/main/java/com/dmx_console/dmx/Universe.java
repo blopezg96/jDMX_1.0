@@ -11,7 +11,7 @@ public class Universe {
 
     public Universe(){
         for(int i=0; i<512; i++){
-            source[i] = Source.CHASE;
+            sources[i] = Source.CHASE;
         }
     }
 
