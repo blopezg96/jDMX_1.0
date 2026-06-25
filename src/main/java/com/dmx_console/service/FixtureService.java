@@ -33,17 +33,21 @@ public class FixtureService {
 
     // setColor usa setChannel internamente
     public void setColor(Fixture fixture,      //Asigna color rgb
-                         int r, int g, int b){
+                         int r, int g, int b, Universe.Source source){
 
 
-        applyChannel(fixture, ChannelFunction.RED,r);
-        applyChannel(fixture, ChannelFunction.GREEN, g);
-        applyChannel(fixture, ChannelFunction.BLUE, b);
+        applyChannel(fixture, ChannelFunction.RED,r, source);
+        applyChannel(fixture, ChannelFunction.GREEN, g, source);
+        applyChannel(fixture, ChannelFunction.BLUE, b, source);
        // send(); // Un solo envio al final.
 
-
-
     }
+
+    public void setColor(Fixture fixture, int r, int g, int b){
+        setColor(fixture,r,g,b, Universe.Source.MANUAL);
+    }
+
+
 
     // Blackout apaga todos los canales del fixture.
     public void blackout(Fixture fixture){
@@ -70,19 +74,31 @@ public class FixtureService {
     }
 */
     public void applyChannel(Fixture fixture, ChannelFunction function,
-                             int value){
+                             int value, Universe.Source source){
         fixture.getProfile().getChannels().stream()
                 .filter(ch -> ch.getFunction() == function)
                 .findFirst()
                 .ifPresent(ch -> universe.setChannel(
-                        fixture.getAddress() + ch.getOffset() - 1, value
+                        fixture.getAddress() + ch.getOffset() - 1, value,
+                        source
+                ));
+    }
+
+    public void setChannel(Fixture fixture, ChannelFunction function,
+                             int value, Universe.Source source){
+        fixture.getProfile().getChannels().stream()
+                .filter(ch -> ch.getFunction() == function)
+                .findFirst()
+                .ifPresent(ch -> universe.setChannel(
+                        fixture.getAddress() + ch.getOffset() - 1, value,
+                        source
                 ));
     }
 
     //SetChannel publico que sigue enviando inmediantamente(solo cambios individuales)
     public void setChannel(Fixture fixture, ChannelFunction function,
                            int value){
-        applyChannel(fixture, function, value);
+        applyChannel(fixture, function, value, Universe.Source.MANUAL);
         // send();
     }
 
