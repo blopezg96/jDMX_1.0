@@ -1,39 +1,39 @@
 [
   {
-    "name": "ALL BLUE",
+    "name": "rgb",
     "fixtureValues": {
       "PAR 5": {
         "DIMMER": 255,
         "RED": 0,
         "WHITE": 0,
-        "BLUE": 255,
+        "BLUE": 0,
         "STROBE": 0,
         "YELLOW": 0,
-        "GREEN": 0
+        "GREEN": 238
       },
       "PAR 3": {
         "DIMMER": 255,
         "RED": 0,
         "WHITE": 0,
-        "BLUE": 252,
+        "BLUE": 248,
         "STROBE": 0,
         "YELLOW": 0,
         "GREEN": 0
       },
       "PAR 4": {
         "DIMMER": 255,
-        "RED": 0,
+        "RED": 234,
         "WHITE": 0,
-        "BLUE": 255,
+        "BLUE": 0,
         "STROBE": 0,
         "YELLOW": 0,
         "GREEN": 0
       },
       "PAR 1": {
         "DIMMER": 255,
-        "RED": 0,
+        "RED": 128,
         "WHITE": 0,
-        "BLUE": 255,
+        "BLUE": 0,
         "STROBE": 0,
         "YELLOW": 0,
         "GREEN": 0
@@ -42,22 +42,22 @@
         "DIMMER": 255,
         "RED": 0,
         "WHITE": 0,
-        "BLUE": 255,
+        "BLUE": 0,
         "STROBE": 0,
         "YELLOW": 0,
-        "GREEN": 0
+        "GREEN": 239
       }
     }
   },
   {
-    "name": "PINKS-TROBE",
+    "name": "red",
     "fixtureValues": {
       "PAR 5": {
         "DIMMER": 255,
         "RED": 255,
         "WHITE": 0,
-        "BLUE": 255,
-        "STROBE": 55,
+        "BLUE": 0,
+        "STROBE": 0,
         "YELLOW": 0,
         "GREEN": 0
       },
@@ -65,8 +65,8 @@
         "DIMMER": 255,
         "RED": 255,
         "WHITE": 0,
-        "BLUE": 252,
-        "STROBE": 53,
+        "BLUE": 0,
+        "STROBE": 0,
         "YELLOW": 0,
         "GREEN": 0
       },
@@ -74,8 +74,8 @@
         "DIMMER": 255,
         "RED": 255,
         "WHITE": 0,
-        "BLUE": 255,
-        "STROBE": 56,
+        "BLUE": 0,
+        "STROBE": 0,
         "YELLOW": 0,
         "GREEN": 0
       },
@@ -83,16 +83,16 @@
         "DIMMER": 255,
         "RED": 249,
         "WHITE": 0,
-        "BLUE": 255,
-        "STROBE": 54,
+        "BLUE": 0,
+        "STROBE": 0,
         "YELLOW": 0,
         "GREEN": 0
       },
       "PAR 2": {
         "DIMMER": 255,
-        "RED": 254,
+        "RED": 243,
         "WHITE": 0,
-        "BLUE": 255,
+        "BLUE": 0,
         "STROBE": 0,
         "YELLOW": 0,
         "GREEN": 0
@@ -100,7 +100,7 @@
     }
   },
   {
-    "name": "MULTICOLOR",
+    "name": "green",
     "fixtureValues": {
       "PAR 5": {
         "DIMMER": 255,
@@ -109,16 +109,16 @@
         "BLUE": 0,
         "STROBE": 0,
         "YELLOW": 0,
-        "GREEN": 75
+        "GREEN": 0
       },
       "PAR 3": {
         "DIMMER": 255,
-        "RED": 9,
+        "RED": 0,
         "WHITE": 0,
-        "BLUE": 0,
+        "BLUE": 170,
         "STROBE": 0,
-        "YELLOW": 75,
-        "GREEN": 131
+        "YELLOW": 0,
+        "GREEN": 57
       },
       "PAR 4": {
         "DIMMER": 255,
@@ -126,16 +126,16 @@
         "WHITE": 0,
         "BLUE": 0,
         "STROBE": 0,
-        "YELLOW": 249,
+        "YELLOW": 0,
         "GREEN": 0
       },
       "PAR 1": {
         "DIMMER": 255,
-        "RED": 255,
+        "RED": 0,
         "WHITE": 0,
-        "BLUE": 128,
+        "BLUE": 0,
         "STROBE": 0,
-        "YELLOW": 56,
+        "YELLOW": 0,
         "GREEN": 255
       },
       "PAR 2": {
@@ -146,6 +146,56 @@
         "STROBE": 0,
         "YELLOW": 0,
         "GREEN": 255
+      }
+    }
+  },
+  {
+    "name": "Aux",
+    "fixtureValues": {
+      "PAR 5": {
+        "DIMMER": 255,
+        "RED": 255,
+        "WHITE": 0,
+        "BLUE": 0,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 0
+      },
+      "PAR 3": {
+        "DIMMER": 255,
+        "RED": 255,
+        "WHITE": 0,
+        "BLUE": 0,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 0
+      },
+      "PAR 4": {
+        "DIMMER": 255,
+        "RED": 255,
+        "WHITE": 0,
+        "BLUE": 0,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 0
+      },
+      "PAR 1": {
+        "DIMMER": 255,
+        "RED": 249,
+        "WHITE": 0,
+        "BLUE": 0,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 0
+      },
+      "PAR 2": {
+        "DIMMER": 255,
+        "RED": 243,
+        "WHITE": 0,
+        "BLUE": 0,
+        "STROBE": 0,
+        "YELLOW": 0,
+        "GREEN": 0
       }
     }
   }

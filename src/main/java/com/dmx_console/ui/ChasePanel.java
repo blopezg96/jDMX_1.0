@@ -30,11 +30,20 @@ public class ChasePanel {
     private ListView<String> stepList;
     private Label statusLabel;
     private Rectangle stepIndicator;
+    private final FixturePreviewGrid fixturePreviewGrid;
+    private final Runnable onChaseStopped;
 
-    public ChasePanel(ChaseEngine engine, SceneService sceneService){
+
+
+    public ChasePanel(ChaseEngine engine,
+                      SceneService sceneService,
+                      Runnable onChaseStopped,
+                      FixturePreviewGrid previewGrid){
         this.engine = engine;
         this.sceneService = sceneService;
+        this.onChaseStopped = onChaseStopped;
         this.view = new VBox(8);
+        this.fixturePreviewGrid = previewGrid;  ///
         buildUI();
     }
 
@@ -216,15 +225,17 @@ public class ChasePanel {
             engine.pause();
             statusLabel.setText("PAUSED. ");
             statusLabel.setStyle("-fx-text-fill: #ffe53a;");
-            stepIndicator.setFill(Color.web("#ffe53"));
+            stepIndicator.setFill(Color.web("#ffe53a"));
         });
 
         //Stop
         btnStop.setOnAction(e -> {
             engine.stop();
+            fixturePreviewGrid.restart();// Al presionar Stop, el previewGrid se resetea
             statusLabel.setText("STOPED");
             statusLabel.setStyle("-fx-text-fill: #2a5a8a;");
             stepIndicator.setFill(Color.web("#1a3a5a"));
+            onChaseStopped.run();
         });
 
         // Callback cuando cambia el paso

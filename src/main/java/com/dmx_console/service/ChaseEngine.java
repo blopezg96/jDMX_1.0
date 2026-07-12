@@ -1,5 +1,6 @@
 package com.dmx_console.service;
 
+import com.dmx_console.dmx.Universe;
 import com.dmx_console.model.Chase;
 import com.dmx_console.model.Fixture;
 import com.dmx_console.model.Scene;
@@ -21,23 +22,24 @@ public class ChaseEngine {
 
     private final SceneService sceneService;
     private final List<Fixture> rig;
-
     private Chase currentChase;
     private ScheduledExecutorService executor;
     private ScheduledFuture<?> chaseTask;
-
     private int currentStep = 0;
     private int bounceDirection = 1;
     private final AtomicBoolean running = new AtomicBoolean(false);
     private final Random random = new Random();
     private Runnable onTick;
+    private final Universe universe;
+
 
     // Callback que notifica a la UI que chase esta activo
     private Consumer<Integer> onStepChanged;
 
-    public ChaseEngine(SceneService sceneService, List<Fixture> rig){
+    public ChaseEngine(SceneService sceneService, List<Fixture> rig, Universe universe){
         this.sceneService = sceneService;
         this.rig = rig;
+        this.universe = universe;
     }
 
     public void setOnTick(Runnable callback){
@@ -61,6 +63,17 @@ public class ChaseEngine {
         this.currentStep = 0;
         this.bounceDirection = 1;
         this.running.set(true);
+        sceneService.setChaseRunning(true);
+
+        Scene firstScene = chase.getSteps().get(0);
+        sceneService.apply(firstScene, rig);
+
+        if (onStepChanged != null){
+            Platform.runLater(() -> onStepChanged.accept(0));
+        }
+        if (onTick!=null){
+            Platform.runLater(onTick);
+        }
 
         executor = Executors.newSingleThreadScheduledExecutor(r ->{
             Thread t = new Thread(r, "Chase-Engine");
@@ -76,7 +89,7 @@ public class ChaseEngine {
             } catch (Exception e){
                 System.err.println("[CHASE] Error: " + e.getMessage());
             }
-        }, 0, intervalMs, TimeUnit.MILLISECONDS);
+        }, intervalMs, intervalMs, TimeUnit.MILLISECONDS);
 
         System.out.printf("[CHASE] '%s' iniciando a %1f BPM (%dms/paso) modo %s%n",
                 chase.getName(), chase.getBpm(),
@@ -90,6 +103,7 @@ public class ChaseEngine {
            chaseTask = null;
         }
         running.set(false);
+        sceneService.setChaseRunning(false);
         System.out.println("[CHASE] Pausado en paso " +currentStep);
     }
 
@@ -110,7 +124,6 @@ public class ChaseEngine {
     }
 
     //Detener
-
     public void stop(){
         running.set(false);
         if(chaseTask != null){
@@ -123,6 +136,18 @@ public class ChaseEngine {
         }
         currentStep = 0;
         bounceDirection = 1;
+        sceneService.setChaseRunning(false);
+        sceneService.setChaseStoped(true);
+
+
+        if(currentChase != null){
+            for(Fixture f: rig){
+                for(var ch : f.getProfile().getChannels()){
+                    int addr = f.getAddress() + ch.getOffset() - 1;
+                    universe.setSource(addr, Universe.Source.MANUAL);
+                }
+            }
+        }
         System.out.println("[CHASE] Detenido");
     }
 
@@ -146,6 +171,9 @@ public class ChaseEngine {
     // LOGICA DE AVANCE DE PASOS
 
     private void tick(){
+
+        if (universe.isEmergencyHold()) return;
+
         List<Scene> steps = currentChase.getSteps();
         if(steps.isEmpty()) return;
 

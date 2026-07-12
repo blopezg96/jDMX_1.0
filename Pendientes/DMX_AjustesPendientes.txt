@@ -1,5 +1,6 @@
 AJUSTAR: 
 
-- Ajustar detalles de faders: un poco mas grandes, y dar formas atractivas a lo botones.  
-
----- DETERMINAR SI PODEMOS COMENZAR A PROBAR PARA CONSEGUIR EL ENTTEC ----- 
+- Al presionar Stop, reiniciar el ColorDOT.
+- Al presioanr Stop reiniciar el preview General.
+-Cambiar de ubicacion el blackOutALL
+-Analizar capa de comunicacion con DMX

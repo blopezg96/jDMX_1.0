@@ -1,5 +1,6 @@
 package com.dmx_console.ui;
 
+import com.dmx_console.dmx.Universe;
 import com.dmx_console.model.ChannelFunction;
 import com.dmx_console.model.Fixture;
 import com.dmx_console.service.ChaseEngine;
@@ -71,20 +72,31 @@ public class MainController {
 
 
 
+
     private Fixture selectedFixture;
 
     public MainController(List<Fixture> rig, FixtureService service){
 
-
+        Universe universe = service.getUniverse();
         this.rig = rig;
         this.service = service;
         this.view = new BorderPane();
-        this.sceneService = new SceneService(service);
-        this.scenePanel = new ScenePanel(sceneService, rig, () -> updateSliders(selectedFixture));
-        this.chaseEngine = new ChaseEngine(sceneService, rig);
+        this.sceneService = new SceneService(service, universe);
+
+        this.chaseEngine = new ChaseEngine(sceneService, rig, universe);
         chaseEngine.setOnTick(this::refreshFixtureColors);
-        this.chasePanel = new ChasePanel(chaseEngine, sceneService);
-        this.previewGrid = new FixturePreviewGrid(rig, service);
+        this.previewGrid = new FixturePreviewGrid(rig, service, universe);
+        this.chasePanel = new ChasePanel(chaseEngine,
+                sceneService,
+                ()->{ fixtureListRef.refresh();
+            updatePreview();},
+                previewGrid);
+        this.scenePanel = new ScenePanel(sceneService, rig, () -> {
+            updateSliders(selectedFixture);
+            fixtureListRef.refresh();
+            if (previewGrid != null) previewGrid.refresh();
+        },
+                previewGrid);
         buildUI();
     }
 
@@ -138,6 +150,8 @@ public class MainController {
             }
             service.blackoutAll();
             updateSliders(selectedFixture);
+            previewGrid.restart();
+            fixtureListRef.refresh();
             updatePreview();
         });
 
@@ -340,6 +354,9 @@ public class MainController {
 
         btnBump.setOnMousePressed(e -> {
             if(selectedFixture == null) return;
+            service.getUniverse().setEmergencyHold(true);
+            colorPreview.setFill(Color.BLACK);
+            if (previewGrid != null)  previewGrid.refresh();
 
             savedValues[0] = (int)  sliderDimmer.getValue();
             savedValues[1] = (int)  sliderR.getValue();
@@ -361,7 +378,7 @@ public class MainController {
 
         btnBump.setOnMouseReleased(e -> {
             if(selectedFixture == null) return;
-
+            service.getUniverse().setEmergencyHold(false);
             service.setChannel(selectedFixture, ChannelFunction.DIMMER, savedValues[0]);
             service.setChannel(selectedFixture, ChannelFunction.RED, savedValues[1]);
             service.setChannel(selectedFixture, ChannelFunction.GREEN, savedValues[2]);
@@ -377,6 +394,7 @@ public class MainController {
             btnBump.getStyleClass().add("hw-btn-hold");
             updatePreview();
             updateStrobe();
+            if(previewGrid != null) previewGrid.refresh();
         });
 
         HBox btnRow = new HBox(0, btnBump, btnBlackout);
@@ -414,6 +432,7 @@ public class MainController {
         dmxListener = (o, ov, nv) -> {
 
             if (selectedFixture == null) return;
+            boolean chaseActive = sceneService.isChaseRunning();
             int r = (int) sliderR.getValue();
             int g = (int) sliderG.getValue();
             int b = (int) sliderB.getValue();
@@ -422,18 +441,22 @@ public class MainController {
             int strobe = (int) sliderStrobe.getValue();
             int dimmer = (int) sliderDimmer.getValue();
 
+            Universe.Source src = chaseActive
+                    ? Universe.Source.MANUAL_OVERIDE
+                    : Universe.Source.MANUAL;
+
 
             service.setColor(selectedFixture, r, g, b);
-            service.setChannel(selectedFixture, ChannelFunction.WHITE, w);
-            service.setChannel(selectedFixture, ChannelFunction.YELLOW, y);
-            service.setChannel(selectedFixture, ChannelFunction.STROBE, strobe);
-            service.setChannel(selectedFixture, ChannelFunction.DIMMER, dimmer);
+            service.setChannel(selectedFixture, ChannelFunction.WHITE, w, src);
+            service.setChannel(selectedFixture, ChannelFunction.YELLOW, y, src);
+            service.setChannel(selectedFixture, ChannelFunction.STROBE, strobe, src);
+            service.setChannel(selectedFixture, ChannelFunction.DIMMER, dimmer, src);
 
             updateFixtureDot(selectedFixture);
-
             updatePreview();
             updateStrobe();
             fixtureList.refresh();
+            previewGrid.refresh();
 
         };
 
@@ -456,6 +479,9 @@ public class MainController {
             if(selectedFixture == null) return;
             service.blackout(selectedFixture);
             updateSliders(selectedFixture);
+            fixtureListRef.refresh();
+            previewGrid.refresh();
+
         });
 
         /// Color picker
@@ -712,12 +738,7 @@ public class MainController {
          slider.setPrefSize(0,0);
          slider.setMaxSize(0,0);
 
-         /*/ TRACK DE COLOR DEL FADER
-         slider.getStyleClass().add("slider-" + colorClass);
-         slider.valueProperty().addListener((o, ov, nv) ->
-                 valueLabel.setText(String.format("%03d", nv.intValue()))
-         );
-         */
+
 
          VBox col = new VBox(6);
          col.setAlignment(Pos.BOTTOM_CENTER);
@@ -833,6 +854,10 @@ public class MainController {
                 previewGrid.refresh();
             }
         });
+    }
+
+    public void stopColorDots(boolean isChaseStoped){
+        if (isChaseStoped == true) fixtureListRef.refresh();
     }
 
 

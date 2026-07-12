@@ -18,29 +18,46 @@ public class FixtureService {
         this.output = output;
     }
 
-    /*
+
+
+
     public void setChannel(Fixture fixture, ChannelFunction function,
                            int value){
+        setChannel(fixture, function, value, Universe.Source.MANUAL);
+    }
+
+    public void setChannel(Fixture fixture, ChannelFunction function,
+                           int value, Universe.Source source){
         fixture.getProfile().getChannels().stream()
                 .filter(ch -> ch.getFunction() == function)
                 .findFirst()
                 .ifPresent(ch -> universe.setChannel(
-                        fixture.getAddress() + ch.getOffset() - 1,
-                        value
+                        fixture.getAddress() + ch.getOffset() - 1, value,
+                        source
                 ));
-        send();
-    } */
+    }
+
+    public void setChanelFromUI(Fixture fixture,
+                                ChannelFunction function,
+                                int value,
+                                boolean chaseActive){
+        Universe.Source src = chaseActive
+                ? Universe.Source.MANUAL_OVERIDE
+                : Universe.Source.MANUAL;
+        setChannel(fixture, function, value, src);
+    }
+
+    public void setColor(Fixture fixture, int r, int g, int b){
+        setColor(fixture, r,g,b, Universe.Source.MANUAL);
+    }
 
     // setColor usa setChannel internamente
-    public void setColor(Fixture fixture,      //Asigna color rgb
-                         int r, int g, int b){
+    public void setColor(Fixture fixture,
+                         int r, int g, int b, Universe.Source source){
 
-
-        applyChannel(fixture, ChannelFunction.RED,r);
-        applyChannel(fixture, ChannelFunction.GREEN, g);
-        applyChannel(fixture, ChannelFunction.BLUE, b);
-       // send(); // Un solo envio al final.
-
+        applyChannel(fixture, ChannelFunction.RED,r, source);
+        applyChannel(fixture, ChannelFunction.GREEN, g, source);
+        applyChannel(fixture, ChannelFunction.BLUE, b, source);
 
 
     }
@@ -49,42 +66,30 @@ public class FixtureService {
     public void blackout(Fixture fixture){
         int base = fixture.getAddress();
         for(FixtureChannel ch : fixture.getProfile().getChannels()){
-            universe.setChannel(base + ch.getOffset() - 1, 0);
+            universe.setChannel(base + ch.getOffset() - 1, 0,
+                    Universe.Source.MANUAL_OVERIDE);
         }
-       // send();
+
 
     }
 
     public void blackoutAll(){
+
         universe.blackout();
-       // send();
     }
 
-    /*
-    private void send(){
-        byte[] data = new byte[512];
-        for(int i = 0; i<512; i++){
-            data[i] = (byte) universe.getChannel(i+1);
-        }
-        output.sendUniverse(data);
-    }
-*/
+
     public void applyChannel(Fixture fixture, ChannelFunction function,
-                             int value){
+                             int value, Universe.Source source){
         fixture.getProfile().getChannels().stream()
                 .filter(ch -> ch.getFunction() == function)
                 .findFirst()
                 .ifPresent(ch -> universe.setChannel(
-                        fixture.getAddress() + ch.getOffset() - 1, value
+                        fixture.getAddress() + ch.getOffset() - 1, value, source
                 ));
     }
 
-    //SetChannel publico que sigue enviando inmediantamente(solo cambios individuales)
-    public void setChannel(Fixture fixture, ChannelFunction function,
-                           int value){
-        applyChannel(fixture, function, value);
-        // send();
-    }
+
 
     public int getChannelValue(Fixture fixture, ChannelFunction function){
         return fixture.getProfile().getChannels().stream()
@@ -94,6 +99,10 @@ public class FixtureService {
                         fixture.getAddress() + ch.getOffset() - 1
                 ))
                 .orElse(0);
+    }
+
+    public Universe getUniverse(){
+        return universe;
     }
 
 }

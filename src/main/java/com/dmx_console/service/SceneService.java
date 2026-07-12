@@ -3,6 +3,7 @@ package com.dmx_console.service;
 /* Service de Scene  */
 
 
+import com.dmx_console.dmx.Universe;
 import com.dmx_console.model.Fixture;
 import com.dmx_console.model.Scene;
 import com.google.gson.Gson;
@@ -19,12 +20,33 @@ public class SceneService {
     private final FixtureService fixtureService;
     private final List<Scene> scenes;
     private final Gson gson;
+    private final Universe universe;
     private static final String SCENES_FILES = "scenes.json";
+    private volatile boolean chaseRunning = false;
+    private boolean isChaseStoped;
 
-    public SceneService(FixtureService fixtureService){
+
+    public SceneService(FixtureService fixtureService, Universe universe){
         this.fixtureService = fixtureService;
+        this.universe = universe;
         this.gson = new GsonBuilder().setPrettyPrinting().create();
         this.scenes = loadFromDisk();
+    }
+
+    public boolean isStoped(){
+        return isChaseStoped;
+    }
+
+    public void setChaseStoped(boolean chaseStoped) {
+        isChaseStoped = chaseStoped;
+    }
+
+    public void setChaseRunning(boolean running){
+        this.chaseRunning = running;
+    }
+
+    public boolean isChaseRunning(){
+        return  chaseRunning;
     }
 
     // Generamos una escena a partir de los valores almacenados de cada fixture.
@@ -44,6 +66,7 @@ public class SceneService {
         }
         scenes.add(scene);
         saveToDisk();
+        System.out.println("[SCENES] Recorded: " + name);
         return scene;
 
     }
@@ -56,10 +79,19 @@ public class SceneService {
                         fixture.getName(),
                         channel.getFunction()
                 );
+                int chAddr = fixture.getAddress() + channel.getOffset() - 1;
+
+                if (chaseRunning && universe.getSource(chAddr) == Universe.Source.MANUAL_OVERIDE){
+                    continue;
+                }
+                Universe.Source src = chaseRunning
+                        ? Universe.Source.CHASE
+                        : Universe.Source.MANUAL;
+
                 fixtureService.setChannel(
                         fixture,
                         channel.getFunction(),
-                        value
+                        value, src
                 );
             }
         }
@@ -72,6 +104,7 @@ public class SceneService {
     public void delete(String name){
         scenes.removeIf(s -> s.getName().equals(name));
         saveToDisk();
+        System.out.println("[ESCENES] Deleted: " + name);
     }
 
     public List<Scene> getScenes(){
@@ -101,8 +134,8 @@ public class SceneService {
             Type listType = new TypeToken<List<Scene>>()
             {}.getType();
             List<Scene> loaded = gson.fromJson(reader, listType);
-            System.out.println("[SCENES] cargadas " + loaded.size()
-            + "escenas ");
+            System.out.println("[SCENES] cargadas: " +
+                    (loaded != null ? loaded.size() : 0));
             return loaded != null ? loaded : new ArrayList<>();
         } catch (IOException e){
             System.err.println("[SCENES] Error al cargar: "+
@@ -110,5 +143,7 @@ public class SceneService {
             return  new ArrayList<>();
         }
     }
+
+
 
 }
