@@ -1,6 +1,0 @@
-AJUSTAR: 
-
-- Al presionar Stop, reiniciar el ColorDOT.
-- Al presioanr Stop reiniciar el preview General.
--Cambiar de ubicacion el blackOutALL
--Analizar capa de comunicacion con DMX
